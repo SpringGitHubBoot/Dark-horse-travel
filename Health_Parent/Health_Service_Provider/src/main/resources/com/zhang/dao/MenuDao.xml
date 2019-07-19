@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.dao.MenuDao">
+
+    <select id="getMenusByUsername" resultType="Menu" parameterType="string">
+        SELECT m.* FROM
+        t_user u , t_user_role ur, t_role r ,t_role_menu rm ,t_menu m
+        WHERE
+        u.id = ur.user_id AND
+        ur.role_id = r.id AND
+        r.id = rm.role_id AND
+        rm.menu_id = m.id AND
+        u.username = #{username}
+        ORDER BY m.turn
+    </select>
+</mapper>

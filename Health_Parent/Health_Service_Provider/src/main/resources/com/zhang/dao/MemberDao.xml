@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.dao.MemberDao">
+
+
+    <select id="selectMemberByPhoneNumber" resultType="Member" parameterType="string">
+        SELECT * FROM t_member WHERE phoneNumber = #{phoneNumber}
+    </select>
+
+    <insert id="add" parameterType="Member" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_member
+        VALUES (NULL ,#{fileNumber} ,#{name} ,#{sex} ,#{idCard} ,#{phoneNumber}
+        ,#{regTime} ,#{password} ,#{email} ,#{birthday} ,#{remark} )
+    </insert>
+
+    <select id="selectMemberCountByDate" resultType="java.lang.Integer" parameterType="map">
+        SELECT COUNT(*) FROM t_member WHERE regTime BETWEEN  #{beginDate} AND #{endDate};
+    </select>
+
+    <select id="selectTotalMemberCountByDate" resultType="java.lang.Integer" parameterType="string">
+        select count(*) from t_member where regTime &lt;= #{dateStr};
+    </select>
+
+    <select id="getTodayNewMember" resultType="java.lang.Integer" parameterType="string">
+        SELECT COUNT(*) FROM t_member WHERE regTime = #{reportDate}
+    </select>
+
+    <select id="getTotalMember" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_member
+    </select>
+
+    <select id="getThisWeekNewMember" resultType="java.lang.Integer" parameterType="date">
+        SELECT COUNT(*) FROM t_member WHERE regTime &gt;= #{regTime}
+    </select>
+
+    <select id="getThisMonthNewMember" resultType="java.lang.Integer" parameterType="date">
+        SELECT COUNT(*) FROM t_member WHERE regTime &gt;= #{regTime}
+    </select>
+
+
+</mapper>

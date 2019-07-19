@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.dao.SetMealDao">
+
+    <insert id="addSetMeal" parameterType="SetMeal"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_setmeal VALUES
+        (NULL ,#{name} ,#{code} ,#{helpCode} ,#{sex} ,#{age} ,#{price}
+        ,#{remark} ,#{attention} ,#{img} ) ;
+    </insert>
+
+    <insert id="addRelationOfSetMealAndCheckGroup" parameterType="map">
+        INSERT INTO t_setmeal_checkgroup VALUES (#{setMealId},#{checkGroupId});
+    </insert>
+
+    <select id="selectSetMealPage" parameterType="string" resultType="SetMeal">
+        SELECT * FROM t_setmeal
+        <!--<if test="value != null and value != '' and value != '%null%'">
+            where code like #{value} or helpCode like #{value} or name like #{value}
+        </if>-->
+        <if test="value != null and value != ''">
+            where code = #{value} or helpCode = #{value} or name like #{value}
+        </if>
+    </select>
+
+    <select id="selectSetMealById" parameterType="int" resultType="SetMeal">
+        SELECT * FROM t_setmeal WHERE id = #{id}
+    </select>
+
+    <select id="selectCheckGroupIdBySetMealId" parameterType="int" resultType="java.lang.Integer">
+        SELECT checkgroup_id FROM t_setmeal_checkgroup WHERE setmeal_id = #{setmeal_id};
+    </select>
+
+    <update id="updateSetMeal" parameterType="SetMeal">
+        UPDATE t_setmeal
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="helpCode != null and helpCode != ''">
+                helpCode = #{helpCode},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age},
+            </if>
+            <if test="price != null and price != ''">
+                price = #{price},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="attention != null and attention != ''">
+                attention = #{attention},
+            </if>
+            <if test="img != null and img != ''">
+                img = #{img},
+            </if>
+        </set>
+
+        <where>
+            id = #{id}
+        </where>
+
+    </update>
+
+    <delete id="deleteSetMealIdFromMid" parameterType="int">
+        DELETE FROM t_setmeal_checkgroup WHERE setmeal_id = #{setmeal_id};
+    </delete>
+
+    <delete id="deleteRelationOfSetMealAndCheckGroup" parameterType="int">
+        DELETE FROM t_setmeal_checkgroup WHERE setmeal_id = #{setmeal_id}
+    </delete>
+
+    <delete id="deleteSetMealById" parameterType="int">
+        DELETE FROM t_setmeal WHERE id = #{id};
+    </delete>
+
+    <select id="selectAllSetMeal" resultType="SetMeal">
+        SELECT * FROM t_setmeal
+    </select>
+
+    <!--注意：映射的是子resultMap-->
+    <select id="findById" resultMap="findResultMapBySetMealId" parameterType="int">
+        SELECT * FROM t_setmeal WHERE id = #{id}
+    </select>
+
+    <resultMap id="getSetMealById" type="SetMeal">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="code" column="code"></result>
+        <result property="helpCode" column="helpCode"></result>
+        <result property="sex" column="sex"></result>
+        <result property="age" column="age"></result>
+        <result property="price" column="price"></result>
+        <result property="remark" column="remark"></result>
+        <result property="attention" column="attention"></result>
+    </resultMap>
+
+    <resultMap id="findResultMapBySetMealId" type="SetMeal"
+               extends="getSetMealById">
+        <collection property="checkGroupList"
+                    javaType="List"
+                    ofType="CheckGroup"
+                    select="com.zhang.dao.CheckGroupDao.selectCheckGroupBySetMealId"
+                    column="id">
+        </collection>
+    </resultMap>
+    <select id="selectSetMealReport" resultType="java.util.Map">
+        SELECT s.`name` , COUNT(o.`id`) `value`
+        FROM t_order o,t_setmeal s
+        WHERE o.`setmeal_id` = s.`id`
+        GROUP BY o.setmeal_id
+    </select>
+
+    <select id="getHotSetmeal" resultType="java.util.Map">
+        SELECT s.`name` ,
+        COUNT(o.id) `setmeal_count`,
+        COUNT(o.id)/(SELECT COUNT(*) FROM t_order) proportion
+        FROM t_order o,t_setmeal s
+        WHERE o.`setmeal_id` = s.`id`
+        GROUP BY o.setmeal_id  LIMIT 0 , 3
+    </select>
+</mapper>

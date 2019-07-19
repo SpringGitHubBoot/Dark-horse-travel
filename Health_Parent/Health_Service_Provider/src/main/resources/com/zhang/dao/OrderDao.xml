@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.dao.OrderDao">
+
+    <select id="selectOrderByThree" resultType="Order" parameterType="Order">
+        select * from t_order
+        where member_id = #{member_id}
+         and orderDate = #{orderDate}
+         and setmeal_id = #{setmeal_id}
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_order VALUES
+        (NULL,#{member_id} ,#{orderDate} ,#{orderType} ,#{orderStatus} ,#{setmeal_id} )
+    </insert>
+
+    <select id="findOrderById" resultType="java.util.Map" parameterType="int">
+        SELECT o.orderDate , o.orderType , s.name setmeal , m.name member
+            FROM t_order o
+            INNER JOIN t_setmeal s
+            ON o.setmeal_id = s.id
+            INNER JOIN t_member m
+            ON o.member_id = m.id
+            WHERE o.id = #{id}
+    </select>
+
+    <select id="getTodayOrderNumber" resultType="java.lang.Integer" parameterType="string">
+        SELECT COUNT(*) FROM t_order WHERE orderDate = #{reportDate}
+    </select>
+
+    <select id="getTodayVisitsNumber" resultType="java.lang.Integer" parameterType="string">
+        SELECT COUNT(*) FROM t_order WHERE orderDate = #{reportDate} AND orderStatus = "已到诊"
+    </select>
+
+    <select id="getThisWeekOrderNumber" resultType="java.lang.Integer" parameterType="map">
+        SELECT COUNT(*) FROM t_order WHERE orderDate BETWEEN #{firstDayOfWeek} AND #{lastDayOfWeek}
+    </select>
+
+    <select id="getThisWeekVisitsNumber" resultType="java.lang.Integer" parameterType="map">
+        SELECT COUNT(*) FROM t_order WHERE orderDate BETWEEN #{firstDayOfWeek} AND #{lastDayOfWeek} AND orderStatus = "已到诊"
+    </select>
+
+    <select id="getThisMonthOrderNumber" resultType="java.lang.Integer" parameterType="map">
+         SELECT COUNT(*) FROM t_order WHERE orderDate BETWEEN #{firstDay4ThisMonth} AND #{lastDay4ThisMonth}
+    </select>
+
+    <select id="getThisMonthVisitsNumber" resultType="java.lang.Integer" parameterType="map">
+         SELECT COUNT(*) FROM t_order WHERE orderDate BETWEEN #{firstDay4ThisMonth} AND #{lastDay4ThisMonth} AND orderStatus = "已到诊"
+    </select>
+
+</mapper>

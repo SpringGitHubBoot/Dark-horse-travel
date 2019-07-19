@@ -95,7 +95,7 @@
             axios.post("/hello/user/getUsername.do").then((res) => {
                 this.username = res.data.data;
                 axios.post("/hello/user/getImg.do?username=" + this.username).then((res) => {
-                    if (res.data.flag) {
+                    if(res.data.flag){
                         this.imgUrl = "http://pud579nol.bkt.clouddn.com/" + res.data.data;
                     }
                 });
@@ -105,17 +105,13 @@
                     }
                 });
             });
-        }
+        },
     });
+
     $(function () {
         var wd = 200;
         $(".el-main").css('width', $('body').width() - wd + 'px');
     });
-
-
-
-
-
 
 </script>
 </html>

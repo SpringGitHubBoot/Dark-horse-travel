@@ -26,7 +26,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = {"/setMeal"})
 public class SetMealController {
-
     @Reference
     private SetMealService setMealService;
 

@@ -2,41 +2,88 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	   http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <context:annotation-config></context:annotation-config>
+    <context:annotation-config/>
 
     <!--创建一个清除图片的定时任务类-->
     <bean id="clearImgJob" class="com.zhang.jobs.ClearImgJob"></bean>
 
+    <!-- 创建一个定期删除预约列表的任务类（每个月最后一天的凌晨2执行）-->
+    <bean id="clearOrderSettingJob" class="com.zhang.jobs.ClearOrderSettingJob"></bean>
+
+
+    <!--配置删除预约列表历史数据任务的细节-->
+    <bean id="jobDetail_clearOrderSettingJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 注入目标对象 -->
+        <property name="targetObject" ref="clearOrderSettingJob"/>
+        <!-- 注入目标方法 -->
+        <property name="targetMethod" value="clearOrderSettingJob"/>
+    </bean>
+
+
     <!--配置清除图片任务的细节-->
-    <bean id="jobDetail"
+    <bean id="jobDetail_clearImgJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <!-- 注入目标对象 -->
         <property name="targetObject" ref="clearImgJob"/>
         <!-- 注入目标方法 -->
         <property name="targetMethod" value="clearImg"/>
     </bean>
-    <!-- 注册一个触发器，指定任务触发的时间 -->
-    <bean id="myTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+
+
+    <!-- 注册一个触发器，删除预约列表历史记录数据的任务触发的时间 -->
+    <bean id="myTrigger_clearOrderSettingJob" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <!--触发器的两个属性名是确定的，一个任务细节，一个触发时间-->
         <!-- 注入JobDetail -->
-        <property name="jobDetail" ref="jobDetail"/>
+        <property name="jobDetail" ref="jobDetail_clearOrderSettingJob"/>
+        <!-- 指定触发的时间，基于Cron表达式,每月第1天凌晨2点删除上个月的数据 -->
+        <property name="cronExpression">
+            <value>0 0 2 1 * ? </value>
+        </property>
+    </bean>
+
+
+
+    <!-- 注册一个触发器，指定任务触发的时间 -->
+    <bean id="myTrigger_clearImgJob" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!--触发器的两个属性名是确定的，一个任务细节，一个触发时间-->
+        <!-- 注入JobDetail -->
+        <property name="jobDetail" ref="jobDetail_clearImgJob"/>
         <!-- 指定触发的时间，基于Cron表达式 -->
         <property name="cronExpression">
             <value>0/40 * * * * ?</value>
         </property>
     </bean>
+
+
     <!-- 注册一个统一的调度工厂，通过这个调度工厂调度任务 -->
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <!-- 注入多个触发器 -->
         <property name="triggers">
             <list>
-                <ref bean="myTrigger"/>
+                <ref bean="myTrigger_clearImgJob"/>
+                <ref bean="myTrigger_clearOrderSettingJob"/>
             </list>
         </property>
     </bean>
+
+
+<!-- 配置dubbo节点-->
+    <dubbo:application name="Health_jobs"/>
+    <!--指定服务注册中心地址-->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <!--批量扫描，发布服务-->
+    <dubbo:annotation package="com.zhang.jobs"/>
+<!--    启动时不检查，超时全局设置 1分钟-->
+    <dubbo:consumer check="false" timeout="60000"/>
+
+
 </beans>

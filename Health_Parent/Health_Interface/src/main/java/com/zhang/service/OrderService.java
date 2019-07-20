@@ -10,4 +10,8 @@ public interface OrderService {
     Result submitOrder(Map map) throws Exception;
 
     Map findOrderById(Integer id);
+
+    //定时清理预约设置历史数据
+    void clearOrderSettingJob(String clearDate);
+
 }

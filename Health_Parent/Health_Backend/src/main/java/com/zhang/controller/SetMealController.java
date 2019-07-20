@@ -56,7 +56,6 @@ public class SetMealController {
     @RequestMapping(value = {"/add"})
     @PreAuthorize(value = "hasAnyAuthority('SETMEAL_ADD')")
     public Result addSetMeal(@RequestBody SetMeal setMeal, Integer[] checkgroupIds) {
-
         try {
             setMealService.addSetMeal(setMeal, checkgroupIds);
             //将成功插入数据库的套餐数据中的图片名存入到redis名为SETMEAL_PIC_DB_RESOURCES的集合中

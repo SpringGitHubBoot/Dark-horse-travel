@@ -3,9 +3,17 @@ package com.zhang.dao;
 
 import com.zhang.entity.Role;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface RoleDao {
 
     Set<Role> selectRoleListByUserId(int id);
+
+    void insertIntoRoleAndMenu(Map map);
+
+    List<Integer> getRoleIdsAboutMenuId(Integer id);
+
+    void deleteFromRoleAndMenuByIds(Map map);
 }

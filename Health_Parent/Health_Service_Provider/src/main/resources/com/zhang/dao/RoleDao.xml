@@ -24,4 +24,16 @@
         (SELECT role_id FROM t_user_role WHERE user_id = #{id} )
     </select>
 
+    <insert id="insertIntoRoleAndMenu" parameterType="map">
+         INSERT INTO t_role_menu VALUES (#{roleId} , #{menuId})
+    </insert>
+
+    <select id="getRoleIdsAboutMenuId" resultType="java.lang.Integer" parameterType="integer">
+         SELECT role_id FROM t_role_menu WHERE menu_id = #{id}
+    </select>
+
+    <delete id="deleteFromRoleAndMenuByIds" parameterType="map">
+         DELETE FROM t_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
+    </delete>
+
 </mapper>

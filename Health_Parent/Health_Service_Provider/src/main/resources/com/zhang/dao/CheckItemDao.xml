@@ -4,12 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhang.dao.CheckItemDao">
 
-    <insert id="addCheckItem" parameterType="com.zhang.entity.CheckItem">
+    <insert id="addCheckItem" parameterType="CheckItem">
         INSERT INTO t_checkitem VALUES
          (NULL,#{code} ,#{name} ,#{sex} ,#{age} ,#{price} ,#{type} ,#{attention} ,#{remark} );
     </insert>
 
-    <select id="selectPageData" parameterType="string" resultType="com.zhang.entity.CheckItem">
+    <select id="selectPageData" parameterType="string" resultType="CheckItem">
         select * from t_checkitem
         <if test="value != null and value !=''">
             WHERE code = #{value} or name like "%${value}%"
@@ -20,7 +20,7 @@
          SELECT COUNT(0) FROM t_checkgroup_checkitem WHERE checkitem_id = #{id} ;
     </select>
 
-    <select id="selectCheckItemById" parameterType="int" resultType="com.zhang.entity.CheckItem">
+    <select id="selectCheckItemById" parameterType="int" resultType="CheckItem">
         SELECT * FROM t_checkitem WHERE id = #{id} ;
     </select>
 
@@ -28,7 +28,7 @@
         DELETE FROM t_checkitem WHERE id = #{id} ;
     </delete>
 
-    <update id="updateCheckItem" parameterType="com.zhang.entity.CheckItem">
+    <update id="updateCheckItem" parameterType="CheckItem">
         UPDATE t_checkitem
         <set>
             <if test="code != null and code != ''">
@@ -61,12 +61,12 @@
         </where>
     </update>
 
-    <select id="selectAllCheckItem" resultType="com.zhang.entity.CheckItem">
+    <select id="selectAllCheckItem" resultType="CheckItem">
         SELECT * FROM t_checkitem
     </select>
 
-<!--    <select id="selectCheckItemByCheckGroupId" parameterType="int" resultType="CheckItem">-->
-<!--        SELECT * FROM t_checkitem WHERE id IN-->
-<!--        (SELECT checkitem_id FROM t_checkgroup_checkitem WHERE checkgroup_id = #{checkgroup_id})-->
-<!--    </select>-->
+    <select id="selectCheckItemByCheckGroupId" parameterType="int" resultType="CheckItem">
+        SELECT * FROM t_checkitem WHERE id IN
+        (SELECT checkitem_id FROM t_checkgroup_checkitem WHERE checkgroup_id = #{checkgroup_id})
+    </select>
 </mapper>

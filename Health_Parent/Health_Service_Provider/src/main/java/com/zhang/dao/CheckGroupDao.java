@@ -35,4 +35,6 @@ public interface CheckGroupDao {
     void deleteCheckGroupById(Integer id);
 
     List<CheckGroup> selectAllCheckGroup();
+
+    List<Integer> findSetMealIds(int checkGroupId);
 }

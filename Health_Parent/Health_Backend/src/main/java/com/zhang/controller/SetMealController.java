@@ -26,7 +26,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = {"/setMeal"})
 public class SetMealController {
-
     @Reference
     private SetMealService setMealService;
 
@@ -128,4 +127,22 @@ public class SetMealController {
             return new Result(false, MessageConstant.DELETE_SETMEAL_FAIL);
         }
     }
+
+
+
+    @RequestMapping("/getSetMeaList")
+    @PreAuthorize(value = "hasAnyAuthority('SETMEAL_QUERY')")
+    public Result getSetMeaList(@RequestBody QueryPageBean queryPageBean){
+        try{
+           PageResult pageResult = setMealService.getSetMeaList(queryPageBean);
+           if(pageResult==null || "".equals(pageResult)){
+               return new Result(false, MessageConstant.QUERY_ORDER_FAIL);
+           }
+           return new Result(true, MessageConstant.QUERY_ORDER_SUCCESS, pageResult);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(false, MessageConstant.QUERY_ORDER_FAIL);
+        }
+    }
+
 }

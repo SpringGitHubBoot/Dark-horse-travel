@@ -128,4 +128,37 @@
         WHERE o.`setmeal_id` = s.`id`
         GROUP BY o.setmeal_id  LIMIT 0 , 3
     </select>
+
+<!--     //当前页数据列表
+    List<Map> getSetMeaList(HashMap<String, Object> hashMap);-->
+    <select id="getSetMeaList" parameterType="map" resultType="map">
+        -- 当前页数据列表
+        select
+             m.`name` as name,
+             m.`sex` as sex,
+             o.`orderDate` as OrderTime,
+             m.`phoneNumber` as phoneNumber,
+             s.name as setmeal,
+             o.`orderType`as ordertype,
+             o.`orderStatus` as orderStatus
+        from
+             t_order o,
+
+             t_setmeal s,
+
+             t_member m
+        where
+             o.`setmeal_id` = s.`id`
+        and
+             o.`member_id` = m.`id`
+
+        <if test="_parameter!=null and _parameter.length>0">
+            and m.`name` like #{queryString}
+        </if>
+
+        order by o.`orderDate`
+    </select>
+
+
+
 </mapper>

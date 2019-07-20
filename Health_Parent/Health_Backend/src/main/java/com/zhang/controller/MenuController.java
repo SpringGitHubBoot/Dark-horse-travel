@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = {"/menu"})
 public class MenuController {
-
     @Reference
     private MenuService menuService;
 

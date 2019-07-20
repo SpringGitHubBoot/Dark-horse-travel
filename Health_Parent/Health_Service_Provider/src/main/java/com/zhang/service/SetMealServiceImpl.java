@@ -12,6 +12,7 @@ import com.zhang.util.DateUtils;
 import com.zhang.util.QiNiuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.JedisPool;
 
 import java.util.*;
 
@@ -24,6 +25,9 @@ public class SetMealServiceImpl implements SetMealService {
     @Autowired
     private SetMealDao setMealDao;
 
+    @Autowired
+    private JedisPool jedisPool;
+
     @Override
     public void addSetMeal(SetMeal setMeal, Integer[] checkGroupIds) {
         //先在套餐表中添加一条套餐记录
@@ -32,6 +36,8 @@ public class SetMealServiceImpl implements SetMealService {
         int setMealId = setMeal.getId();
         //添加的套餐记录可能和多条检查组记录有关联，将关联信息添加到关系表中
         this.addRelationOfSetMealAndCheckGroup(setMealId, checkGroupIds);
+        resetRedisSetMeal();
+
     }
 
     @Override
@@ -63,6 +69,9 @@ public class SetMealServiceImpl implements SetMealService {
         setMealDao.deleteSetMealIdFromMid(setMeal.getId());
         this.addRelationOfSetMealAndCheckGroup(setMeal.getId(), checkgroupIds);
         setMealDao.updateSetMeal(setMeal);
+        resetRedisSetMeal();
+        int setMealId = setMeal.getId();
+        resetRedisSetMealById(setMealId);
     }
 
     @Override
@@ -74,6 +83,30 @@ public class SetMealServiceImpl implements SetMealService {
         String imgName = setMeal.getImg();
         QiNiuUtils.deleteFileFromQiNiu(imgName);
         setMealDao.deleteSetMealById(setMeal.getId());
+        resetRedisSetMeal();
+    }
+
+    //重置redis的setMealList集合的方法
+    public void resetRedisSetMeal() {
+        //增删改套餐后判断redis中是否存在套餐列表
+        String setMealList = jedisPool.getResource().get("setMealList");
+        //如果存在
+        if (setMealList != null) {
+            //使setMealList的值为""，查询套餐详情时候就需要重新查询数据库并重新给redis赋值
+            jedisPool.getResource().set("setMealList","");
+        }
+    }
+
+    //重置redis的某个套餐id对应的套餐详情数据
+    public void resetRedisSetMealById(Integer id) {
+        //修改套餐、增删改检查组或者增删改检查项后，判断redis中是否存在某个id对应的套餐详情
+        String idStr = id.toString();
+        String setMealDetail = jedisPool.getResource().get(idStr);
+        //如果存在
+        if (setMealDetail != null) {
+            //使idStr的值为""，查询套餐详情时候就需要重新查询数据库并重新给redis赋值
+            jedisPool.getResource().set(idStr,"");
+        }
     }
 
     @Override

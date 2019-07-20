@@ -94,4 +94,7 @@
                     select="com.zhang.dao.CheckItemDao.selectCheckItemByCheckGroupId">
         </collection>
     </resultMap>
+    <select id="findSetMealIds" resultType="java.lang.Integer" parameterType="int">
+        SELECT setmeal_id FROM t_setmeal_checkgroup WHERE checkgroup_id = #{checkGroupId}
+    </select>
 </mapper>

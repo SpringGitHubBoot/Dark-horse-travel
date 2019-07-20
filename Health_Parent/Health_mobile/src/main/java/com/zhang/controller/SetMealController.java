@@ -59,7 +59,7 @@ public class SetMealController {
                 return new Result(true, MessageConstant.QUERY_SETMEALLIST_SUCCESS, setMealDetail);
             }
             //将json字符串转换成list集合
-            SetMeal setMeal = JSON.parseObject(redisSetMealDetail, SetMeal.class);
+            SetMeal setMeal = JSON.parseObject(redisSetMealDetail,SetMeal.class);
             return new Result(true, MessageConstant.QUERY_SETMEALLIST_SUCCESS, setMeal);
         } catch (Exception e) {
             e.printStackTrace();

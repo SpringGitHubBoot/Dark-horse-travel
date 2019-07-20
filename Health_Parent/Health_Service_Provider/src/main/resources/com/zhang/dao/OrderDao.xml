@@ -11,10 +11,28 @@
          and setmeal_id = #{setmeal_id}
     </select>
 
-    <insert id="add" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO t_order VALUES
-        (NULL,#{member_id} ,#{orderDate} ,#{orderType} ,#{orderStatus} ,#{setmeal_id} )
+<!--    <insert id="add" useGeneratedKeys="true" keyProperty="id">-->
+<!--        INSERT INTO t_order VALUES-->
+<!--        (NULL,#{member_id} ,#{orderDate} ,#{orderType} ,#{orderStatus} ,#{setmeal_id} )-->
+<!--    </insert>-->
+
+
+    <insert id="add" parameterType="com.zhang.entity.Order">
+        <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="int">
+            select  LAST_INSERT_ID()
+        </selectKey>
+
+        insert into `t_order` (member_id,orderDate,orderType,orderStatus,setmeal_id)
+        values(#{member_id},#{orderDate},#{orderType},#{orderStatus},#{setmeal_id});
     </insert>
+
+
+
+
+
+
+
+
 
     <select id="findOrderById" resultType="java.util.Map" parameterType="int">
         SELECT o.orderDate , o.orderType , s.name setmeal , m.name member

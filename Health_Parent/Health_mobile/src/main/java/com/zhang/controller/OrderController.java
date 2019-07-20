@@ -44,13 +44,21 @@ public class OrderController {
         map.put("orderType", Order.ORDERTYPE_WEIXIN);
         map.put("orderStatus", Order.ORDERSTATUS_NO);
 
-        Result result = orderService.submitOrder(map);
-        //如果最终返回的flag为true
-        if (result.isFlag()) {
-            //给用户发送体检预约成功的通知短息
-            SMSUtils.sendShortMessage(SMSUtils.ORDER_NOTICE, telephone, telephone);
+        try {
+             Result result = orderService.submitOrder(map);
+
+            //如果最终返回的flag为true
+            if (result.isFlag()) {
+                //给用户发送体检预约成功的通知短息
+                SMSUtils.sendShortMessage(SMSUtils.ORDER_NOTICE, telephone, telephone);
+            }
+
+             return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(true, MessageConstant.QUERY_ORDER_FAIL);
         }
-        return result;
+
     }
 
     @RequestMapping(value = {"/findById"})

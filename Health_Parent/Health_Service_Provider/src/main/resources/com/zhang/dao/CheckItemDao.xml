@@ -69,8 +69,4 @@
         SELECT * FROM t_checkitem WHERE id IN
         (SELECT checkitem_id FROM t_checkgroup_checkitem WHERE checkgroup_id = #{checkgroup_id})
     </select>
-
-    <select id="findCheckGroupIds" resultType="java.lang.Integer" parameterType="int">
-        SELECT checkgroup_id FROM t_checkgroup_checkitem WHERE checkitem_id = #{checkItemId}
-    </select>
 </mapper>

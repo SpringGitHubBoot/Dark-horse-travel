@@ -8,15 +8,15 @@ import com.zhang.dao.SetMealDao;
 import com.zhang.entity.SetMeal;
 import com.zhang.pojo.PageResult;
 import com.zhang.pojo.QueryPageBean;
+import com.zhang.util.DateUtils;
 import com.zhang.util.QiNiuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.JedisPool;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.sun.tools.doclint.Entity.and;
 
 @Service(interfaceClass = SetMealService.class)
 @Transactional
@@ -135,6 +135,43 @@ public class SetMealServiceImpl implements SetMealService {
             return data;
         }
         return null;
+    }
+
+    //获取预约列表信息
+    @Override
+    public PageResult getSetMeaList(QueryPageBean queryPageBean) throws Exception {
+
+        Integer currentPage = queryPageBean.getCurrentPage();
+
+        Integer pageSize = queryPageBean.getPageSize();
+
+        String queryString = queryPageBean.getQueryString();
+
+        if(queryString==null || "".equals(queryString)){
+            queryString = "";
+        }
+
+
+
+        PageHelper.startPage(currentPage, pageSize);
+
+        Page<Map> page = setMealDao.getSetMeaList("%"+queryString+"%");
+
+        //获得当前页数据列表
+        List<Map> dataList = page.getResult();
+        //设置时间格式
+        for (Map map : dataList) {
+            Date orderTime = (Date) map.get("OrderTime");
+            String time = DateUtils.parseDate2String(orderTime, "yyyy-MM-dd");
+            map.put("OrderTime",time);
+        }
+
+
+
+        PageResult pageResult = new PageResult(page.getTotal(),dataList);
+
+
+        return pageResult;
     }
 
     public void addRelationOfSetMealAndCheckGroup(Integer setMealId, Integer[] checkGroupIds) {

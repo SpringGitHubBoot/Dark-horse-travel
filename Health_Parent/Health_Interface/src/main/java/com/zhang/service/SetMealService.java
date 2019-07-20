@@ -36,4 +36,7 @@ public interface SetMealService {
 
     //获取套餐预约报表
     Map getSetMealReport();
+
+    //获取预约列表信息（翻页数据）
+    PageResult getSetMeaList(QueryPageBean queryPageBean) throws Exception;
 }

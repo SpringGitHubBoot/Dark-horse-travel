@@ -46,4 +46,9 @@ public interface SetMealDao {
     List<Map> selectSetMealReport();
 
     List<Map> getHotSetmeal();
+
+    //当前页数据列表
+    Page<Map> getSetMeaList(String queryString) throws Exception;
+
+
 }

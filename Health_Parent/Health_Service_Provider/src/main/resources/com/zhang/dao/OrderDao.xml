@@ -50,4 +50,10 @@
          SELECT COUNT(*) FROM t_order WHERE orderDate BETWEEN #{firstDay4ThisMonth} AND #{lastDay4ThisMonth} AND orderStatus = "已到诊"
     </select>
 
+<!--    //定时删除order表数据
+    void clearOrderSettingJob(String date);-->
+    <delete id="clearOrderSettingJob" parameterType="string">
+        delete from t_ordersetting where orderDate &lt; #{value};
+    </delete>
+
 </mapper>

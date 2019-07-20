@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>传智健康</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- 引入组件库 -->
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/vue.js"></script>
+    <script src="../../plugins/elementui/index.js"></script>
+    <script src="../../js/axios-0.18.0.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+        <!--<el-tab-pane label="用户管理" name="first"></el-tab-pane>-->
+        <!--<el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>-->
+        <!--<el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>-->
+        <!--<el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>-->
+
+        <el-tab-pane v-for="menu in menus" :name="menu.name" :label=menu.title>
+            <el-table
+                    :data="menu.children"
+                    stripe
+                    style="width: 100%">
+                <el-table-column
+                        prop="title"
+                        label="菜单名"
+                        width="180">
+                </el-table-column>
+
+                <el-table-column
+                        prop="linkUrl"
+                        label="链接地址">
+                </el-table-column>
+            </el-table>
+        </el-tab-pane>
+
+        <!--<el-tab-pane  label="新增菜单" class="butT" ></el-tab-pane>-->
+    </el-tabs>
+</div>
+</body>
+
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            activeName: 'second',
+            menus: [
+                {
+                    title: '会员管理',
+                    name: 'first',
+                    children: [{title: '会员档案', linkUrl: '465465.html'}, {title: 'hehe', linkUrl: '465465.html'}]
+                },
+                {title: '预约管理', name: 'second'},
+                {title: '健康评估', name: 'third'},
+                {title: '统计分析', name: 'fourth'},
+                {title: '系统设置', name: 'fifth'},
+            ]
+        },
+        methods: {
+            handleClick(tab, event) {
+                console.log(tab, event);
+            }
+        }
+    });
+
+</script>
+
+
+</html>

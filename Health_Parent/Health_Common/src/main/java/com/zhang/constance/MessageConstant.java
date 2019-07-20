@@ -76,6 +76,18 @@ public class MessageConstant {
     public static final String DELETE_PERMISSION_FAIL = "删除权限失败";
     public static final String EDIT_PERMISSION_SUCCESS = "编辑权限成功";
     public static final String EDIT_PERMISSION_FAIL = "编辑权限失败";
+    public static final String ADD_USER_SUCCESS = "新增用户成功";
+    public static final String ADD_USER_FAIL = "新增用户失败";
+    public static final String EDIT_USER_SUCCESS = "编辑用户成功";
+    public static final String EDIT_USER_FAIL = "编辑用户失败";
+    public static final String DELETE_USER_SUCCESS = "删除用户成功";
+    public static final String DELETE_USER_FAIL = "删除用户失败";
+    public static final String QUERY_USER_SUCCESS = "查询用户成功";
+    public static final String QUERY_USER_FAIL = "查询用户失败";
+    public static final String QUERY_ROLE_FAIL = "查询角色失败";
+    public static final String QUERY_ROLE_SUCCESS = "查询角色成功";
+
+
 
 
 }

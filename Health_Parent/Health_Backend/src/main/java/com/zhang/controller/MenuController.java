@@ -27,4 +27,7 @@ public class MenuController {
             return new Result(false, MessageConstant.GET_MENU_FAIL);
         }
     }
+
+    
+
 }

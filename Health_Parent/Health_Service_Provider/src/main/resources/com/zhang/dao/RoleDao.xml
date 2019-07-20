@@ -24,4 +24,10 @@
         (SELECT role_id FROM t_user_role WHERE user_id = #{id} )
     </select>
 
+    <select id="selectAllRole" resultType="com.zhang.entity.Role">
+        SELECT * FROM t_role
+    </select>
+
+
+
 </mapper>

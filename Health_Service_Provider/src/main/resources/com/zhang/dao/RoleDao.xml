@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.dao.RoleDao">
+
+    <select id="selectRolesByUserId" resultMap="selectRolesByUser" parameterType="int">
+        SELECT * FROM t_role WHERE id IN
+        (SELECT role_id FROM t_user_role WHERE user_id = #{user_id})
+    </select>
+
+    <resultMap id="selectRolesByUser" type="Role">
+        <id column="id" property="id"></id>
+        <result column="keyword" property="keyword"></result>
+        <collection property="permissionSet"
+                    column="id"
+                    ofType="Permission"
+                    select="com.zhang.dao.PermissionDao.selectPermissionByRoleId">
+        </collection>
+    </resultMap>
+
+    <select id="selectRoleListByUserId" resultType="Role" parameterType="int">
+        SELECT * FROM t_role WHERE id in
+        (SELECT role_id FROM t_user_role WHERE user_id = #{id} )
+    </select>
+
+    <insert id="insertIntoRoleAndMenu" parameterType="map">
+         INSERT INTO t_role_menu VALUES (#{roleId} , #{menuId})
+    </insert>
+
+    <select id="getRoleIdsAboutMenuId" resultType="java.lang.Integer" parameterType="integer">
+         SELECT role_id FROM t_role_menu WHERE menu_id = #{id}
+    </select>
+
+    <delete id="deleteFromRoleAndMenuByIds" parameterType="map">
+         DELETE FROM t_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
+    </delete>
+
+</mapper>

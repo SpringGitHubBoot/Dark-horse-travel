@@ -17,6 +17,15 @@
             border-radius: 4px;
             min-height: 40px;
         }
+
+        .el-table .warning-row {
+            background: oldlace;
+        }
+
+        .el-table .success-row {
+            background: #f0f9eb;
+        }
+
     </style>
 </head>
 <body class="hold-transition">
@@ -35,62 +44,70 @@
         <div class="box" style="height: 900px">
             <div class="excelTitle">
                 <el-button @click="exportExcel" type="primary" plain>导出Excel</el-button>
-                运营数据统计
+                <h4>运营数据统计</h4>
             </div>
+            <el-icon-date/>
             <div class="excelTime">日期：{{reportData.reportDate}}</div>
-            <table class="exceTable" cellspacing="0" cellpadding="0">
-                <tr>
-                    <td colspan="4" class="headBody">会员数据统计</td>
-                </tr>
-                <tr>
-                    <td width='20%' class="tabletrBg">新增会员数</td>
-                    <td width='30%'>{{reportData.todayNewMember}}</td>
-                    <td width='20%' class="tabletrBg">总会员数</td>
-                    <td width='30%'>{{reportData.totalMember}}</td>
-                </tr>
-                <tr>
-                    <td class="tabletrBg">本周新增会员数</td>
-                    <td>{{reportData.thisWeekNewMember}}</td>
-                    <td class="tabletrBg">本月新增会员数</td>
-                    <td>{{reportData.thisMonthNewMember}}</td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="headBody">预约到诊数据统计</td>
-                </tr>
-                <tr>
-                    <td class="tabletrBg">今日预约数</td>
-                    <td>{{reportData.todayOrderNumber}}</td>
-                    <td class="tabletrBg">今日到诊数</td>
-                    <td>{{reportData.todayVisitsNumber}}</td>
-                </tr>
-                <tr>
-                    <td class="tabletrBg">本周预约数</td>
-                    <td>{{reportData.thisWeekOrderNumber}}</td>
-                    <td class="tabletrBg">本周到诊数</td>
-                    <td>{{reportData.thisWeekVisitsNumber}}</td>
-                </tr>
-                <tr>
-                    <td class="tabletrBg">本月预约数</td>
-                    <td>{{reportData.thisMonthOrderNumber}}</td>
-                    <td class="tabletrBg">本月到诊数</td>
-                    <td>{{reportData.thisMonthVisitsNumber}}</td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="headBody">热门套餐</td>
-                </tr>
-                <tr class="tabletrBg textCenter">
-                    <td>套餐名称</td>
-                    <td>预约数量</td>
-                    <td>占比</td>
-                    <td>备注</td>
-                </tr>
-                <tr v-for="s in reportData.hotSetmeal">
-                    <td>{{s.name}}</td>
-                    <td>{{s.setmeal_count}}</td>
-                    <td>{{s.proportion}}</td>
-                    <td></td>
-                </tr>
-            </table>
+            <template>
+                <el-table :data="tableData" style="width: 100%"
+                          :row-class-name="tableRowClassName">
+
+                    <el-table-column>
+
+                    </el-table-column>
+                    <tr>
+                        <td colspan="4" class="headBody">会员数据统计</td>
+                    </tr>
+                    <tr>
+                        <td width='20%' class="tabletrBg">新增会员数</td>
+                        <td width='30%'>{{reportData.todayNewMember}}</td>
+                        <td width='20%' class="tabletrBg">总会员数</td>
+                        <td width='30%'>{{reportData.totalMember}}</td>
+                    </tr>
+                    <tr>
+                        <td class="tabletrBg">本周新增会员数</td>
+                        <td>{{reportData.thisWeekNewMember}}</td>
+                        <td class="tabletrBg">本月新增会员数</td>
+                        <td>{{reportData.thisMonthNewMember}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="headBody">预约到诊数据统计</td>
+                    </tr>
+                    <tr>
+                        <td class="tabletrBg">今日预约数</td>
+                        <td>{{reportData.todayOrderNumber}}</td>
+                        <td class="tabletrBg">今日到诊数</td>
+                        <td>{{reportData.todayVisitsNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td class="tabletrBg">本周预约数</td>
+                        <td>{{reportData.thisWeekOrderNumber}}</td>
+                        <td class="tabletrBg">本周到诊数</td>
+                        <td>{{reportData.thisWeekVisitsNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td class="tabletrBg">本月预约数</td>
+                        <td>{{reportData.thisMonthOrderNumber}}</td>
+                        <td class="tabletrBg">本月到诊数</td>
+                        <td>{{reportData.thisMonthVisitsNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="headBody">热门套餐</td>
+                    </tr>
+                    <tr class="tabletrBg textCenter">
+                        <td>套餐名称</td>
+                        <td>预约数量</td>
+                        <td>占比</td>
+                        <td>备注</td>
+                    </tr>
+                    <tr v-for="s in reportData.hotSetmeal">
+                        <td>{{s.name}}</td>
+                        <td>{{s.setmeal_count}}</td>
+                        <td>{{s.proportion}}</td>
+                        <td></td>
+                    </tr>
+                </el-table>
+            </template>
         </div>
     </div>
 </div>
@@ -125,10 +142,20 @@
             });
         },
         methods: {
+
             exportExcel() {
                 window.location.href = '/hello/report/exportBusinessReport.do';
+            },
+
+            tableRowClassName({row, rowIndex}) {
+                if (rowIndex === 1 || rowIndex === 4 || rowIndex === 8) {
+                    return 'warning-row';
+                } else {
+                    return 'success-row';
+                }
+                return '';
             }
-        }
+        },
     })
 </script>
 </html>

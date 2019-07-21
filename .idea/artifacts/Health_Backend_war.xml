@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="Health_Backend:war">
-    <output-path>$PROJECT_DIR$/Health_Backend/target</output-path>
-    <root id="archive" name="Health_Backend-1.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="Health_Backend:war exploded" />
-    </root>
-  </artifact>
-</component>

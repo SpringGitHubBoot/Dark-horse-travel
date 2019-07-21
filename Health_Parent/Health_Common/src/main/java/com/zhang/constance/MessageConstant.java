@@ -70,4 +70,12 @@ public class MessageConstant {
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
     public static final String GET_USER_IMG_SUCCESS = "获取用户头像图片成功";
     public static final String GET_USER_IMG_FAIL = "获取用户头像图片失败";
+    public static final String QUERY_SETMEAL_ROLE_SUCCESS = "获取角色列表成功";
+    public static final String QUERY_SETMEAL_ROLE_FAIL = "获取角色列表失败";
+    public static final String ADD_ROLE_FAIL = "新增角色失败";
+    public static final String ADD_ROLE_SUCCESS = "新增角色成功";
+    public static final String DELETE_ROLE_FAIL = "删除角色失败";
+    public static final String DELETE_ROLE_SUCCESS = "删除角色成功";
+    public static final String EDIT_ROLE_FAIL = "编辑角色失败";
+    public static final String EDIT_ROLE_SUCCESS = "编辑角色成功";
 }

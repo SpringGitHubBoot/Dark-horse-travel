@@ -16,12 +16,12 @@
     </insert>
 
     <select id="selectSetMealPage" parameterType="string" resultType="SetMeal">
-        SELECT * FROM t_setmeal
+        SELECT * FROM t_setmeal s
         <!--<if test="value != null and value != '' and value != '%null%'">
             where code like #{value} or helpCode like #{value} or name like #{value}
         </if>-->
-        <if test="value != null and value != ''">
-            where code = #{value} or helpCode = #{value} or name like #{value}
+        <if test="_parameter != null and _parameter.length() > 0">
+            where s.code LIKE #{value} or s.helpCode LIKE #{value} or s.name like #{value}
         </if>
     </select>
 
@@ -127,5 +127,35 @@
         FROM t_order o,t_setmeal s
         WHERE o.`setmeal_id` = s.`id`
         GROUP BY o.setmeal_id  LIMIT 0 , 3
+    </select>
+
+    <!--     //当前页数据列表
+        List<Map> getSetMeaList(HashMap<String, Object> hashMap);-->
+    <select id="getSetMeaList" parameterType="map" resultType="map">
+        -- 当前页数据列表
+        select
+        m.`name` as name,
+        m.`sex` as sex,
+        o.`orderDate` as OrderTime,
+        m.`phoneNumber` as phoneNumber,
+        s.name as setmeal,
+        o.`orderType`as ordertype,
+        o.`orderStatus` as orderStatus
+        from
+        t_order o,
+
+        t_setmeal s,
+
+        t_member m
+        where
+        o.`setmeal_id` = s.`id`
+        and
+        o.`member_id` = m.`id`
+
+        <if test="_parameter!=null and _parameter.length>0">
+            and m.`name` like #{queryString}
+        </if>
+
+        order by o.`orderDate`
     </select>
 </mapper>

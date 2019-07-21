@@ -15,4 +15,65 @@
         u.username = #{username}
         ORDER BY m.turn
     </select>
+    <select id="selectMenuPageData" resultType="Menu" parameterType="string">
+        SELECT * FROM t_menu
+        <where>
+            <if test="_parameter != null and _parameter != ''">
+                title LIKE #{value} OR CODE LIKE #{keyWord}
+            </if>
+        </where>
+    </select>
+
+    <select id="findMenuByPath" resultType="Menu" parameterType="string">
+         select * from t_menu where path = #{path}
+    </select>
+    <select id="getMaxTurnNumber" resultType="java.lang.Integer">
+         SELECT MAX(turn) FROM t_menu;
+    </select>
+
+    <insert id="addMenu" parameterType="Menu" keyProperty="id" useGeneratedKeys="true">
+         INSERT INTO t_menu VALUES
+         (NULL,#{title} ,#{linkUrl} ,#{path} ,#{priority} ,#{description} ,NULL
+         ,#{icon} ,#{level} ,#{turn} ,#{code} )
+    </insert>
+
+    <update id="updateMenuTurnsAfterInsert" parameterType="int">
+         UPDATE t_menu SET turn = turn + 1 WHERE turn &gt; #{turn}
+    </update>
+
+    <select id="queryMenuById" resultType="Menu" parameterType="int">
+         SELECT * FROM t_menu WHERE id = #{id}
+    </select>
+
+    <update id="updateMenu" parameterType="Menu">
+        UPDATE t_menu
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title} ,
+            </if>
+            <if test="linkUrl != null and linkUrl != ''">
+                linkUrl = #{linkUrl} ,
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description} ,
+            </if>
+            <if test="code != null and code != ''">
+                code = #{code} ,
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <update id="updateMenuTurnsAfterDelete" parameterType="int">
+         UPDATE t_menu SET turn = turn - 1 WHERE turn > #{turn}
+    </update>
+    <delete id="deleteMenuById" parameterType="int">
+         DELETE FROM t_menu WHERE id = #{id}
+    </delete>
+
+    <select id="findMenuListByPartPath" resultType="Menu" parameterType="string">
+         SELECT * FROM t_menu WHERE path LIKE #{value}
+    </select>
 </mapper>

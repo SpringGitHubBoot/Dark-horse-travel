@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +42,56 @@ public class ReportController {
 
     @Reference
     private ReportService reportService;
+    /**
+     * 年龄阶段占比
+     */
+    @RequestMapping(value = {"getAgeStageReport"})
+    @PreAuthorize(value = "hasAnyAuthority('REPORT_VIEW')")
+    public Result getAgeStageReport(){
+        try {
+            //返回json数据,map集合
+            Map<String,Object> map=new HashMap<>();
+            //获取数据
+            List<Map<String,Object>> list=reportService.getAgeStageReport();
+            map.put("AgeStageAndCount", list);
+
+            List<String> ageStageList = new ArrayList<>();
+            for (Map<String, Object> m : list) {
+                String age = (String) m.get("name");
+                ageStageList.add(age);
+            }
+            map.put("AgeStageNames", ageStageList);
+            return new Result(true,MessageConstant.GET_AGE_REPORT_SUCCESS,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,MessageConstant.GET_AGE_REPORT_FAIL);
+        }
+    }
+    /**
+     * 会员性别占比
+     */
+    @RequestMapping(value = {"getGenderReport"})
+    @PreAuthorize(value = "hasAnyAuthority('REPORT_VIEW')")
+    public Result getGenderReport(){
+        try {
+            //返回json数据,map集合
+            Map<String,Object> map=new HashMap<>();
+            //获取数据
+            List<Map<String,Object>> list=reportService.getGenderReport();
+           map.put("genderNamesAndCount", list);
+
+            List<String> namesList = new ArrayList<>();
+            for (Map<String, Object> m : list) {
+                String name = (String) m.get("name");
+                namesList.add(name);
+            }
+            map.put("genderNames", namesList);
+            return new Result(true,MessageConstant.GET_GENDER_REPORT_SUCCESS,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,MessageConstant.GET_GENDER_REPORT_SUCCESS);
+        }
+    }
 
     @RequestMapping(value = {"getMemberReport"})
     @PreAuthorize(value = "hasAnyAuthority('REPORT_VIEW')")

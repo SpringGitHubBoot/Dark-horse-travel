@@ -26,7 +26,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = {"/setMeal"})
 public class SetMealController {
-
     @Reference
     private SetMealService setMealService;
 
@@ -57,7 +56,6 @@ public class SetMealController {
     @RequestMapping(value = {"/add"})
     @PreAuthorize(value = "hasAnyAuthority('SETMEAL_ADD')")
     public Result addSetMeal(@RequestBody SetMeal setMeal, Integer[] checkgroupIds) {
-
         try {
             setMealService.addSetMeal(setMeal, checkgroupIds);
             //将成功插入数据库的套餐数据中的图片名存入到redis名为SETMEAL_PIC_DB_RESOURCES的集合中
@@ -128,4 +126,21 @@ public class SetMealController {
             return new Result(false, MessageConstant.DELETE_SETMEAL_FAIL);
         }
     }
+
+
+    @RequestMapping("/getSetMeaList")
+    @PreAuthorize(value = "hasAnyAuthority('SETMEAL_QUERY')")
+    public Result getSetMeaList(@RequestBody QueryPageBean queryPageBean) {
+        try {
+            PageResult pageResult = setMealService.getSetMeaList(queryPageBean);
+            if (pageResult == null || "".equals(pageResult)) {
+                return new Result(false, MessageConstant.QUERY_ORDER_FAIL);
+            }
+            return new Result(true, MessageConstant.QUERY_ORDER_SUCCESS, pageResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.QUERY_ORDER_FAIL);
+        }
+    }
+
 }

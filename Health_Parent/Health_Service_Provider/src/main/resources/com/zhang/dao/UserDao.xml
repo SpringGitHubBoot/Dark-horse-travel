@@ -33,4 +33,72 @@
     <select id="findUserByUsername" resultType="User" parameterType="string">
         select * from t_user where username = #{username} ;
     </select>
+
+
+    <select id="selectUserPage" parameterType="string" resultType="com.zhang.entity.User">
+        select * from t_user
+        <if test="_parameter != null and _parameter != ''">
+            where id LIKE #{value} or username like #{value}
+        </if>
+    </select>
+
+    <select id="selectUserById" parameterType="int" resultType="com.zhang.entity.User">
+        SELECT * FROM t_user WHERE id = #{id};
+    </select>
+
+    <select id="selectRolesIdByUserId" parameterType="int" resultType="java.lang.Integer">
+        SELECT role_id FROM t_user_role WHERE user_id = #{user_id}
+    </select>
+
+    <!--插入用户的同时获取它的插入记录的id值-->
+    <insert id="add" parameterType="com.zhang.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user VALUES
+        (NULL ,#{birthday} ,#{gender} ,#{username} ,#{password} ,#{remark} ,#{station},#{telephone},#{imgName})
+    </insert>
+
+    <insert id="insertTableUserAndRole" parameterType="map">
+        INSERT INTO t_user_role VALUES (#{userId},#{roleId});
+    </insert>
+
+    <update id="updateUser" parameterType="com.zhang.entity.User">
+        UPDATE t_user
+        <set>
+            <if test="birthday != null ">
+                birthday = #{birthday} ,
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender} ,
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password} ,
+            </if>
+            <if test="username != null and username != ''">
+                username = #{username} ,
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark} ,
+            </if>
+            <if test="station != null and station != ''">
+                station = #{station} ,
+            </if>
+            <if test="telephone != null and telephone != ''">
+                telephone = #{telephone} ,
+            </if>
+            <if test="imgName != null and imgName != ''">
+                imgName = #{imgName} ,
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <delete id="deleteFromTableUserAndRoleByUserID" parameterType="int">
+        delete from t_user_role where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteUserById" parameterType="int">
+        DELETE FROM t_user WHERE id = #{userId} ;
+    </delete>
+
 </mapper>

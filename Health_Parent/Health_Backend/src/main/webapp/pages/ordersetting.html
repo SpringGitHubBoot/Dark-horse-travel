@@ -174,7 +174,8 @@
                     inputErrorMessage: '可预约人数必须输入数字且不能大于500！'
                 }).then(({value}) => {
 
-                    if (value == null) {
+                    if (value == null
+                    ) {
                         value = 0;
                     }
 
@@ -186,7 +187,8 @@
                     var date = this.formatDate(day.getFullYear(), day.getMonth() + 1, day.getDate());
 
                     axios.post("/hello/orderSetting/setOrderPeopleNumber.do", params).then((res) => {
-                        if (res.data.flag) {
+                        if (res.data.flag
+                        ) {
 
                             this.leftObj.number = value;
                             this.$message({
@@ -194,14 +196,17 @@
                                 message: "设置可预约人数成功!" + date + "可预约" + value + "人"
                             });
                             this.initData(this.formatDate(day.getFullYear(), day.getMonth() + 1, 1))
-                        } else {
+                        }
+                        else {
                             this.$message.error(res.data.message);
                         }
-                    });
+                    })
+                    ;
 
                 }).catch(() => {
                     this.$message("已取消");
-                });
+                })
+                ;
             },
 
             //显示设置按钮
@@ -309,12 +314,15 @@
 
                 axios.post("/hello/orderSetting/getOrderSettingByMonth.do?currentMonth=" +
                     this.currentYear + "-" + this.currentMonth).then((res) => {
-                    if (res.data.flag) {
+                    if (res.data.flag
+                    ) {
                         this.leftObj = res.data.data;
-                    } else {
+                    }
+                    else {
                         this.$message.error(res.data.message);
                     }
-                });
+                })
+                ;
             }
             ,
 

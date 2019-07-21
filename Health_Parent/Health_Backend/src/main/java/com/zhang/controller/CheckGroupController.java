@@ -88,10 +88,10 @@ public class CheckGroupController {
 
         try {
             checkGroupService.delete(id);
-            return new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
+            return new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false, MessageConstant.EDIT_CHECKGROUP_FAIL);
+            return new Result(false, MessageConstant.DELETE_CHECKGROUP_FAIL);
         }
     }
 

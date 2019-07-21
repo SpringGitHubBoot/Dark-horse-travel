@@ -21,4 +21,6 @@ public interface CheckItemDao {
     void updateCheckItem(CheckItem checkItem);
 
     List<CheckItem> selectAllCheckItem();
+
+    List<Integer> findCheckGroupIds(Integer checkItemId);
 }

@@ -13,7 +13,27 @@ public class Menu implements Serializable {
     private int parentMenuId;
     private String icon;
     private int level;
+    private int turn;
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     private List<Menu> children;
+
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
 
     public List<Menu> getChildren() {
         return children;

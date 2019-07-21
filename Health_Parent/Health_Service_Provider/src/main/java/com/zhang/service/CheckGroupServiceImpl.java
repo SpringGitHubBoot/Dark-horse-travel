@@ -10,6 +10,7 @@ import com.zhang.pojo.PageResult;
 import com.zhang.pojo.QueryPageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.JedisPool;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,10 @@ public class CheckGroupServiceImpl implements CheckGroupService {
 
     @Autowired
     private CheckGroupDao checkGroupDao;
+
+    @Autowired
+    private JedisPool jedisPool;
+
 
     @Override
     //添加检查组的同时，需要在关联表中建立检查组合检查项的关系
@@ -36,8 +41,11 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         Integer currentPage = queryPageBean.getCurrentPage();
         String queryString = queryPageBean.getQueryString();
         Integer pageSize = queryPageBean.getPageSize();
+        if (queryString == null) {
+            queryString = "";
+        }
         PageHelper.startPage(currentPage, pageSize);
-        Page<CheckGroup> page = checkGroupDao.selectCheckGroupPage(queryString);
+        Page<CheckGroup> page = checkGroupDao.selectCheckGroupPage("%" + queryString + "%");
         return new PageResult(page.getTotal(), page.getResult());
     }
 
@@ -64,6 +72,24 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         checkGroupDao.deleteFromTableGroupAndItemByCheckGroupID(checkGroupId);
         //将检查组对应新的检查项插入到关系表中
         this.insertTableCheckGroupAndCheckItem(checkGroupId, checkItemIds);
+        List<Integer> ids = checkGroupDao.findSetMealIds(checkGroupId);
+
+        //将检查组id对应的所有套餐redis详情数据都清空
+        this.resetRedisSetMealById(ids);
+    }
+
+    //修改某个检查组后，重置redis的该组对应的所有套餐id对应的套餐详情数据
+    public void resetRedisSetMealById(List<Integer> ids) {
+        //修改套餐、增删改检查组或者增删改检查项后，判断redis中是否存在某个id对应的套餐详情
+        for (Integer id : ids) {
+            String idStr = id.toString();
+            String setMealDetail = jedisPool.getResource().get(idStr);
+            //如果存在
+            if (setMealDetail != null) {
+                //使idStr的值为""，查询套餐详情时候就需要重新查询数据库并重新给redis赋值
+                jedisPool.getResource().set(idStr, "");
+            }
+        }
     }
 
     @Override

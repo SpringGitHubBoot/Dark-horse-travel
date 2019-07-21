@@ -2,15 +2,21 @@ package com.zhang.service;
 //@author ZT 2019/7/16-15:35  
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zhang.dao.PermissionDao;
 import com.zhang.dao.RoleDao;
 import com.zhang.dao.UserDao;
+import com.zhang.entity.CheckGroup;
 import com.zhang.entity.Permission;
 import com.zhang.entity.Role;
 import com.zhang.entity.User;
+import com.zhang.pojo.PageResult;
+import com.zhang.pojo.QueryPageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -52,5 +58,71 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getImg(String username) {
         return userDao.getImg(username);
+    }
+
+
+    /*使用第三方工具查找用户的信息*/
+    @Override
+    public PageResult selectUserPage(QueryPageBean queryPageBean) {
+        Integer currentPage = queryPageBean.getCurrentPage();
+        String queryString = queryPageBean.getQueryString();
+        Integer pageSize = queryPageBean.getPageSize();
+        PageHelper.startPage(currentPage, pageSize);
+        if (queryString == null) {
+            queryString = "";
+        }
+        Page<User> page = userDao.selectUserPage("%" + queryString + "%");
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    /*通过id查找用户*/
+    @Override
+    public User selectUserById(Integer id) {
+        return userDao.selectUserById(id);
+    }
+
+    /*根据用户的id查找对应的角色的id列表*/
+    @Override
+    public List<Integer> selectRolesIdByUserId(Integer id) {
+        return userDao.selectRolesIdByUserId(id);
+    }
+
+    //添加用户的同时，需要在关联表中建立用户和角色的关系
+    //也就是在中间表中添加多个联合主键
+    @Override
+    public void add(User user, Integer[] roleIds) {
+        userDao.add(user);
+        int userId = user.getId();
+        this.insertTableUserAndRole(userId, roleIds);
+    }
+
+    @Override
+    public void update(User user, Integer[] roleIds) {
+        //更新用户表中的数据
+        userDao.updateUser(user);
+        //获取用户的id
+        int userId = user.getId();
+        //通过用户的id删除所有与角色项的关联数据
+        userDao.deleteFromTableUserAndRoleByUserID(userId);
+        //将用户对应新的角色插入到关系表中
+        this.insertTableUserAndRole(userId, roleIds);
+    }
+
+    /*根据用户id删除用户*/
+    @Override
+    public void delete(Integer userId) {
+        //通过用户的id删除所有与角色项的关联数据
+        userDao.deleteFromTableUserAndRoleByUserID(userId);
+        userDao.deleteUserById(userId);
+    }
+
+    //抽离的方法，用来在t_user_role表中插入值
+    public void insertTableUserAndRole(Integer userId, Integer[] roleIds) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("userId", userId);
+        for (Integer roleId : roleIds) {
+            map.put("roleId", roleId);
+            userDao.insertTableUserAndRole(map);
+        }
     }
 }

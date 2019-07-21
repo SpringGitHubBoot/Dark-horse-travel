@@ -17,7 +17,7 @@ public interface SetMealDao {
     void addRelationOfSetMealAndCheckGroup(HashMap<String, Integer> map);
 
     //分页查询套餐表
-    Page<SetMeal> selectSetMealPage(String keyword);
+    Page<SetMeal> selectSetMealPage(String queryString);
 
     //通过id值查询套餐信息
     SetMeal selectSetMealById(Integer id);
@@ -46,4 +46,8 @@ public interface SetMealDao {
     List<Map> selectSetMealReport();
 
     List<Map> getHotSetmeal();
+
+    //当前页数据列表
+    Page<Map> getSetMeaList(String queryString) throws Exception;
+
 }

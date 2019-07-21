@@ -4,6 +4,7 @@ package com.zhang.dao;
 import com.zhang.entity.Member;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public interface MemberDao {
@@ -23,4 +24,14 @@ public interface MemberDao {
     Integer getThisWeekNewMember(Date firstDayOfWeek);
 
     Integer getThisMonthNewMember(Date firstDay4ThisMonth);
+
+    /**
+     *会员性别占比
+     */
+    List<Map<String,Object>> findGenderNameAndCount();
+
+    /**
+     *年龄阶段占比
+     */
+    List<Map<String,Object>> getBirthdayToAge();
 }

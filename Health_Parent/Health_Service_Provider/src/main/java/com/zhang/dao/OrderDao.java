@@ -25,4 +25,7 @@ public interface OrderDao {
     Integer getThisMonthOrderNumber(Map map);
 
     Integer getThisMonthVisitsNumber(Map map);
+
+    //定时删除order表数据
+    void clearOrderSettingJob(String date);
 }

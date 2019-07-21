@@ -76,5 +76,4 @@
     <select id="findMenuListByPartPath" resultType="Menu" parameterType="string">
          SELECT * FROM t_menu WHERE path LIKE "${value}%"
     </select>
-
 </mapper>

@@ -41,8 +41,11 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         Integer currentPage = queryPageBean.getCurrentPage();
         String queryString = queryPageBean.getQueryString();
         Integer pageSize = queryPageBean.getPageSize();
+        if (queryString == null) {
+            queryString = "";
+        }
         PageHelper.startPage(currentPage, pageSize);
-        Page<CheckGroup> page = checkGroupDao.selectCheckGroupPage(queryString);
+        Page<CheckGroup> page = checkGroupDao.selectCheckGroupPage("%" + queryString + "%");
         return new PageResult(page.getTotal(), page.getResult());
     }
 

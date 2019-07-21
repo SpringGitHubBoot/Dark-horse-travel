@@ -16,8 +16,8 @@
 
     <select id="selectCheckGroupPage" parameterType="string" resultType="CheckGroup">
         select * from t_checkgroup
-        <if test="value != null and value != ''">
-            where code = #{value} or name like "%${value}%" or helpCode = #{value}
+        <if test="_parameter != null and _parameter != ''">
+            where code LIKE #{value} or `name` like #{value} or helpCode LIKE #{value}
         </if>
     </select>
 

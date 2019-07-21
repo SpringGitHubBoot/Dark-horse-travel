@@ -1166,7 +1166,7 @@ function mergeDataOrFn (
     }
     // when parentVal & childVal are both present,
     // we need to return a function that returns the
-    // merged result of both functions... no need to
+    // merged entity of both functions... no need to
     // check if parentVal is a function here because
     // it has to be a function to pass previous merges.
     return function mergedDataFn () {
@@ -4535,7 +4535,7 @@ function renderMixin (Vue) {
       vnode = render.call(vm._renderProxy, vm.$createElement);
     } catch (e) {
       handleError(e, vm, "render");
-      // return error render result,
+      // return error render entity,
       // or previous vnode to prevent render error causing blank component
       /* istanbul ignore else */
       {

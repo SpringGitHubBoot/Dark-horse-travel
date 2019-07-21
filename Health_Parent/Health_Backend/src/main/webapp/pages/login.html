@@ -1,55 +1,71 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html>
-<head>
-    <!-- 页面meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>传智健康</title>
-    <meta name="description" content="传智健康">
-    <meta name="keywords" content="传智健康">
-    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-    <!-- 引入样式 -->
-    <link rel="stylesheet" href="../plugins/elementui/index.css">
-    <link rel="stylesheet" href="../css/login.css">
-</head>
-<body class="hold-transition skin-purple sidebar-mini">
-<div id="app">
-    <div class="login-container">
-        <div class="loginBox">
-            <form method="post" class="login-form" action="/hello/login.do" label-position="left">
-                <div class="title-container">
-                    <div class="logoInfo clearfix">
-                        <em class="logo"></em>
-                    </div>
-                </div>
-                <div>
-                        <span class="svg-container svg-container_login">
-                          <span class="user"></span>
-                        </span>
-                    <input type="text" name="username" placeholder="请输入用户名"/>
-                </div>
-                <div>
-                        <span class="svg-container">
-                          <span class="username"></span>
-                        </span>
-                    <input type="password" name="password" placeholder="请输入密码"/>
-                </div>
-                <input type="submit" style="width:100%;margin-bottom:30px;" value="登录"></input>
-            </form>
-        </div>
-    </div>
-</div>
-</body>
-<!-- 引入组件库 -->
-<script src="../js/vue.js"></script>
-<script src="../plugins/elementui/index.js"></script>
+	<head>
+		<!-- 页面meta -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title>传智健康</title>
 
+		<link href="../css/bootstrap.min.css" title="" rel="stylesheet" />
+		<link title="orange" href="../css/login.css" rel="stylesheet" type="text/css">
+
+
+	</head>
+	<!-- 页面meta -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<body>
+		<div style="height:1px;"></div>
+		<div class="login">
+			<header>
+				<div class="title-container">
+					<div class="logoInfo clearfix">
+						<em class="logo"></em>
+					</div>
+				</div>
+			</header>
+			<div class="sr">
+				<form method="post" class="login-form" action="/hello/login.do" label-position="left">
+					<div class="name">
+						<label>
+							<i class="sublist-icon glyphicon glyphicon-user"></i>
+						</label>
+						<input type="text" name="username" placeholder="这里输入登录名" class="name_inp">
+					</div>
+					<div class="name">
+						<label>
+							<i class="sublist-icon glyphicon glyphicon-pencil"></i>
+						</label>
+						<input type="password" name="password" placeholder="这里输入登录密码" class="name_inp">
+					</div>
+					<button type="submit" class="dl">登陆</button>
+				</form>
+
+			</div>
+		</div>
+	</body>
+	<!-- 引入组件库 -->
+	<script src="../js/vue.js"></script>
+	<script src="../plugins/elementui/index.js"></script>
+	<script>
+        window.οnlοad=function(){
+            var btn=document.getElementById("btn");
+            var pass=document.getElementById("pass");
+            btn.οnmοusedοwn=function(){
+                pass.type="number"
+            };
+            btn.οnmοuseup=btn.οnmοuseοut=function(){
+                pass.type="password"
+            }
+        }
+	</script>
+	<script>
+        var windowUrl = window.location;
+        var parentUrl = parent.location.href;
+        if (windowUrl != parentUrl) {
+            parent.location.href = "/pages/login.html";
+        }
+	</script>
 </html>
-
-<script>
-    var windowUrl = window.location;
-    var parentUrl = parent.location.href;
-    if (windowUrl != parentUrl) {
-        parent.location.href = "/hello/pages/login.html";
-    }
-</script>

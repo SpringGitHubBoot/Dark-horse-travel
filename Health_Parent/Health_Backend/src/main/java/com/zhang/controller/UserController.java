@@ -116,6 +116,8 @@ public class UserController {
     public Result updateUser(@RequestBody com.zhang.entity.User user,
                              Integer[] roleIds) {
         try {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setPassword(encoder.encode(user.getPassword()));
             userService.update(user, roleIds);
             return new Result(true, MessageConstant.EDIT_USER_SUCCESS);
         } catch (Exception e) {

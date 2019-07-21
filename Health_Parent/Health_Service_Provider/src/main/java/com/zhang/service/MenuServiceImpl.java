@@ -102,7 +102,6 @@ public class MenuServiceImpl implements MenuService {
             menuDao.addMenu(menu);
             int menuId = menu.getId();
             insertIntoRoleAndMenu(menuId);
-            return;
         }
         //用户输入了一个二级路径
         else {
@@ -156,7 +155,6 @@ public class MenuServiceImpl implements MenuService {
                         menuDao.addMenu(menu);
                         int menuId = menu.getId();
                         insertIntoRoleAndMenu(menuId);
-                        return;
                     }
                 }
             }

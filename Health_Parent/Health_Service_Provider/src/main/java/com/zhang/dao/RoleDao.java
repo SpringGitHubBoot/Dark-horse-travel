@@ -16,4 +16,5 @@ public interface RoleDao {
     List<Integer> getRoleIdsAboutMenuId(Integer id);
 
     void deleteFromRoleAndMenuByIds(Map map);
+
 }

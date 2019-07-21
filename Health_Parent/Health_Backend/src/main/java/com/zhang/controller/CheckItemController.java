@@ -74,9 +74,9 @@ public class CheckItemController {
             checkItemService.updateCheckItem(checkItem);
         } catch (Exception e) {
             //通过是否发生异常来得到返回给前端的数据，数据用Result来封装
-            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+            return new Result(false, MessageConstant.EDIT_CHECKITEM_FAIL);
         }
-        return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS);
+        return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
     }
 
     @RequestMapping(value = {"/selectAllCheckItem"})

@@ -1,122 +1,24 @@
-html,body {
-	/* overflow-y: scroll; */
-	margin: 0;
+
+@keyframes cc{
+	0%{opacity: 0.4;transform: scale(0.1) ;top: -500px;}
+	50%{opacity: 0.4;transform: scale(0.1) rotateX(90deg);top: -50px;}
+	100%{opacity: 1;transform: scale(1) rotateX(0deg);top: 0;}
 }
-.login-container .input{
-  display: inline-block;
-    height: 47px;
-    width: 85%;
-  
-}
-.login-container .input input {
-  background: transparent;
-  border: 0px;
-  -webkit-appearance: none;
-  border-radius: 0px;
-  padding: 12px 5px 12px 0;
-  height: 47px;
-}
-.login-container .el-form-item {
-  border: 1px solid #DCDFE6;
-  background: #fff;
-  border-radius: 5px;
-  color: #454545;
-}
-.login-container .el-button--medium{
-  height: 50px;
-  line-height: 20px;
-  font-size: 22px;
-}
-.login-container .loginBox{
-  height: 100%;
-  width: 100%;
- background: url('./../img/logingBg.png') no-repeat 100% 100%;
- position: relative;
-}
-.login-container .loginBox .el-form-item__content{
-  line-height: initial;
-}
-.login-container form {
-  position: absolute;
-  left: 20%;
-  top: 50%;
-  width: 520px;
-  padding: 35px 35px 15px 35px;
-  margin: -200px 0 0 0;
-  background:#f5f5f5;
-}
-.login-container .tips {
-  font-size: 14px;
-  /* // color: #fff; */
-  margin-bottom: 10px;
-  /* span {
-    &:first-of-type {
-      margin-right: 16px;
+@media only screen and (max-width: 500px) {
+	.login{
+		width: 95%!important;
+	}
+	.sr{
+	padding:30px 70px!important;
     }
-  } */
 }
-.login-container .svg-container {
-  padding: 6px 5px 6px 15px;
-  color: #889aa4;
-  vertical-align: middle;
-  width: 30px;
-  display: inline-block;
-  /* &_login {
-    font-size: 20px;
-  } */
-}
-.login-container .title-container {
-  position: relative;
-  
-  
-}
-.login-container .title-container .title {
-  font-size: 26px;
-  /* // font-weight: 400; */
-  color: #333;
-  margin: 0px auto 40px auto;
-  text-align: center;
-  font-weight: bold;
-}
-.login-container .title-container .set-language {
-  /* // color: #fff; */
-  position: absolute;
-  top: 5px;
-  right: 0px;
-}
-.login-container {
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  background-color: #2d3a4b;
-  background: url('./../img/bg.jpg');
-  -moz-background-size: 100% 100%;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-.login-container .show-pwd {
-  position: absolute;
-  right: 10px;
-  top: 7px;
-  font-size: 16px;
-  color: #889aa4;
-  cursor: pointer;
-  user-select: none;
-}
-.login-container .thirdparty-button {
-  position: absolute;
-  right: 35px;
-  bottom: 28px;
-}
-.logoInfo{
-  padding-bottom:35px;
-  text-align: center;
-}
-.logoInfo span{
-	font-size: 22px;
-	padding: 0 10px;
-  display: inline-block;
-  
+html,body{
+ height: 100%;
+ width: 100%;
+ background: url(./../img/logingBg.png) no-repeat 100% 100%;
+ position: relative;
+	background-size:1420px 800px;
+	perspective:300px;
 }
 .logoInfo .logo{
 	background: url(../img/loginLogo.png) no-repeat;
@@ -126,22 +28,78 @@ html,body {
   display: inline-block;
   vertical-align: middle;
 }
-.tipInfo{font-size: 12px;}
-.tipInfo span{
-  color: #66b1ff;
-  padding: 0 5px;
-}
-.tipInfo .el-checkbox{
-  margin: 0;
-}
 .svg-container span{
   width: 22px;
   height: 22px;
   display: inline-block;
 }
-.svg-container .user{
-  background: url(../img/user.png) no-repeat 0 50%;
+
+*{
+		font-family:"仿宋";
 }
-.svg-container .username{
-  background: url(../img/pwd.png) no-repeat 0 50%;
+.login{
+	width:450px;
+	position: relative;
+	top: 0;
+	margin: 15% auto;
+	background:rgba(255,255,255,1);
+	border-radius: 10px;
+    color: #27d;
+    animation: cc 4s ease-in-out ;
 }
+.login header{
+	
+    padding: 10px;
+    border-bottom: 1px solid #27d;
+}
+
+.login header h1{
+	margin:0;
+	padding:0;
+	text-align: center;
+    font-size: 25px;
+    line-height: 40px;
+}
+.sr{
+	padding:30px 90px;
+}
+.name{
+	position:relative;
+	margin-bottom:20px;
+	clear:both;
+	border:1px solid #27d;
+	width: 100%;
+    height: 40px;
+}
+.name label{
+	position: absolute;
+    color: #27d;
+    top: 10px;
+    left: 10px;
+}
+.name_inp{
+	padding-left: 34px;
+	height: 38px;
+    line-height: 38px;
+    line-height: 36px\9;
+    border: none;
+    background-color: #fff;
+   width:100%;
+   outline:none;
+}
+.dl{
+	width:150px;
+	height:40px;
+	background:#27d;
+	line-height:40px;
+	display:block;
+	margin:0 auto;
+	color:#fff;
+	border:0;
+	font-size:18px;
+}
+.loginrd{
+
+}
+
+

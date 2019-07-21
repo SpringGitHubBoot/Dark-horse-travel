@@ -12,6 +12,16 @@
     <link rel="stylesheet" href="../../plugins/elementui/index.css">
     <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/style.css">
+
+    <style>
+        .el-table .warning-row {
+            background: oldlace;
+        }
+
+        .el-table .success-row {
+            background: #f0f9eb;
+        }
+    </style>
 </head>
 <body class="hold-transition">
 <div id="app">
@@ -34,7 +44,8 @@
                 <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
             </div>
 
-            <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
+            <el-table :row-class-name="tableRowClassName" size="small"
+                      current-row-key="id" :data="dataList" highlight-current-row>
                 <el-table-column type="index" align="center" label="序号"></el-table-column>
                 <el-table-column prop="id" label="权限编码" align="center"></el-table-column>
                 <el-table-column prop="name" label="权限名称" align="center"></el-table-column>
@@ -174,6 +185,13 @@
                 }
             },
 
+
+            tableRowClassName({row, rowIndex}) {
+                if (rowIndex % 2 === 1) {
+                    return 'success-row';
+                }
+                return '';
+            },
             //编辑
             handleEdit() {
                 this.$refs["dataEditForm"].validate((valid) => {

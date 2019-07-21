@@ -9,9 +9,19 @@
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <title>传智健康</title>
     <!-- 引入样式 -->
-    <link rel="stylesheet" href="../plugins/elementui/index.css">
-    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <style>
+        .el-table .warning-row {
+            background: oldlace;
+        }
+
+        .el-table .success-row {
+            background: #f0f9eb;
+        }
+    </style>
 </head>
 <body class="hold-transition">
 <div id="app">
@@ -33,24 +43,27 @@
                 <el-button @click="findPage()" class="dalfBut">查询</el-button>
                 <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
             </div>
-            <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
-                <el-table-column type="index" align="center" label="序号"></el-table-column>
-                <el-table-column prop="code" label="项目编码" align="center"></el-table-column>
-                <el-table-column prop="name" label="项目名称" align="center"></el-table-column>
-                <el-table-column label="适用性别" align="center">
-                    <template slot-scope="scope">
-                        <span>{{ scope.row.sex == '0' ? '不限' : scope.row.sex == '1' ? '男' : '女'}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="age" label="适用年龄" align="center"></el-table-column>
-                <el-table-column prop="remark" label="项目说明" align="center"></el-table-column>
-                <el-table-column label="操作" align="center">
-                    <template slot-scope="scope">
-                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-                        <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
+            <template>
+                <el-table :row-class-name="tableRowClassName" size="small" current-row-key="id" :data="dataList"
+                          highlight-current-row>
+                    <el-table-column type="index" align="center" label="序号"></el-table-column>
+                    <el-table-column prop="code" label="项目编码" align="center"></el-table-column>
+                    <el-table-column prop="name" label="项目名称" align="center"></el-table-column>
+                    <el-table-column label="适用性别" align="center">
+                        <template slot-scope="scope">
+                            <span>{{ scope.row.sex == '0' ? '不限' : scope.row.sex == '1' ? '男' : '女'}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="age" label="适用年龄" align="center"></el-table-column>
+                    <el-table-column prop="remark" label="项目说明" align="center"></el-table-column>
+                    <el-table-column label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </template>
             <div class="pagination-container">
                 <el-pagination
                         class="pagination"
@@ -205,10 +218,10 @@
 </div>
 </body>
 <!-- 引入组件库 -->
-<script src="../js/vue.js"></script>
-<script src="../plugins/elementui/index.js"></script>
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<script src="../js/axios-0.18.0.js"></script>
+<script src="../../js/vue.js"></script>
+<script src="../../plugins/elementui/index.js"></script>
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script src="../../js/axios-0.18.0.js"></script>
 <script>
     var vue = new Vue({
         el: '#app',
@@ -245,6 +258,13 @@
                     this.$message.error("未知错误！！！")
                     return;
                 }
+            },
+
+            tableRowClassName({row, rowIndex}) {
+                if (rowIndex % 2 === 1) {
+                    return 'success-row';
+                }
+                return '';
             },
 
             //编辑

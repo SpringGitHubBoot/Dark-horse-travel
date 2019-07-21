@@ -9,10 +9,20 @@
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <title>传智健康</title>
     <!-- 引入样式 -->
-    <link rel="stylesheet" href="../plugins/elementui/index.css">
-    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
 
+    <style>
+
+        .el-table .warning-row {
+            background: oldlace;
+        }
+
+        .el-table .success-row {
+            background: #f0f9eb;
+        }
+    </style>
 </head>
 <body class="hold-transition">
 <div id="app">
@@ -41,19 +51,20 @@
             </div>
 
 
-            <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
+            <el-table :row-class-name="tableRowClassName" size="small" current-row-key="id"
+                      :data="dataList"  highlight-current-row>
                 <el-table-column type="index" align="center" label="编号"></el-table-column>
-                <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-                <el-table-column label="性别" align="center">
+                <el-table-column prop="name" label="姓名" align="center" width="150"></el-table-column>
+                <el-table-column label="性别" align="center" width="100">
                     <template slot-scope="scope">
                         <span>{{ scope.row.sex == '0' ? '不限' : scope.row.sex == '1' ? '男' : '女'}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="OrderTime" label="预约日期" align="center"></el-table-column>
-                <el-table-column prop="phoneNumber" label="联系电话" align="center"></el-table-column>
-                <el-table-column prop="setmeal" label="预约套餐" align="center"></el-table-column>
-                <el-table-column prop="ordertype" label="预约方式" align="center"></el-table-column>
-                <el-table-column prop="orderStatus" label="就诊状态" align="center"></el-table-column>
+                <el-table-column prop="OrderTime" label="预约日期" align="center" width="150"></el-table-column>
+                <el-table-column prop="phoneNumber" label="联系电话" align="center" width="150"></el-table-column>
+                <el-table-column prop="setmeal" label="预约套餐" align="center" width="400"></el-table-column>
+                <el-table-column prop="ordertype" label="预约方式" align="center" width="120"></el-table-column>
+                <el-table-column prop="orderStatus" label="就诊状态" align="center" width="120"></el-table-column>
 
             </el-table>
 
@@ -74,10 +85,10 @@
 </div>
 </body>
 <!-- 引入组件库 -->
-<script src="../js/vue.js"></script>
-<script src="../plugins/elementui/index.js"></script>
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<script src="../js/axios-0.18.0.js"></script>
+<script src="../../js/vue.js"></script>
+<script src="../../plugins/elementui/index.js"></script>
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+<script src="../../js/axios-0.18.0.js"></script>
 <script>
     var vue = new Vue({
         el: '#app',
@@ -160,7 +171,12 @@
                 this.findPage();
             },
 
-
+            tableRowClassName({row, rowIndex}) {
+                if (rowIndex % 2 === 1) {
+                    return 'success-row';
+                }
+                return '';
+            }
         }
     })
 </script>

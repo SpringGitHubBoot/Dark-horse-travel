@@ -36,4 +36,9 @@
          DELETE FROM t_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
     </delete>
 
+<!--    List<Role> selectAllRole();-->
+    <select id="selectAllRole" resultType="com.zhang.entity.Role">
+        select * from t_role
+    </select>
+
 </mapper>

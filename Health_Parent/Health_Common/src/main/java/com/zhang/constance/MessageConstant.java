@@ -92,4 +92,8 @@ public class MessageConstant {
     public static final String QUERY_USER_FAIL = "查询用户失败";
     public static final String QUERY_ROLE_SUCCESS = "查询角色成功";
     public static final String QUERY_ROLE_FAIL = "查询角色失败";
+    public static final String GET_GENDER_REPORT_SUCCESS = "获取性别统计数据成功";
+    public static final String GET_GENDER_REPORT_FAIL = "获取性别统计数据失败";
+    public static final String GET_AGE_REPORT_FAIL = "获取年龄统计数据失败";
+    public static final String GET_AGE_REPORT_SUCCESS = "获取年龄统计数据成功";
 }

@@ -3,8 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhang.dao.MemberDao">
-
-
     <select id="selectMemberByPhoneNumber" resultType="Member" parameterType="string">
         SELECT * FROM t_member WHERE phoneNumber = #{phoneNumber}
     </select>
@@ -39,5 +37,33 @@
         SELECT COUNT(*) FROM t_member WHERE regTime &gt;= #{regTime}
     </select>
 
-
+    <!--会员性别占比-->
+    <select id="findGenderNameAndCount" resultType="map">
+        select
+        case when(sex=1) then '男'
+        when(sex=2) then '女'
+        else '未填写' end as name,
+        COUNT(id) as value
+        from t_member
+        group by sex;
+    </select>
+    <!--年龄阶段占比-->
+    <select id="getBirthdayToAge" resultType="map">
+        select
+        COUNT(name) as value,
+        name
+        from (
+        select case
+        when age &gt;=0 and age &lt;=18 then '0-18'
+        when age &gt;18 and age &lt;=30 then '19-30'
+        when age &gt;30 and age &lt;=45 then '31-45'
+        when age &gt;45 then '45以上'
+        end as name
+        from(
+        select TIMESTAMPDIFF(year,m.birthday,CURDATE()) as age
+        from t_member m
+        where m.birthday is not null
+        )a)a
+        group by name;
+    </select>
 </mapper>

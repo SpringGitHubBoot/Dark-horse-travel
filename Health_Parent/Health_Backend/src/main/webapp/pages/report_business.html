@@ -17,42 +17,6 @@
             border-radius: 4px;
             min-height: 40px;
         }
-
-        .exceTable {
-            width: 1200px;
-            margin: auto;
-
-        }
-
-        .headBody {
-            background-color: #00B8EC;
-            font-size: 20px;
-        }
-
-        .el-icon-date {
-            padding: 20px 0;
-            text-align: right;
-            font-weight: bold;
-            font-size: 20px;
-            color: darkorange;
-        }
-
-        td {
-            text-align: center;
-            font-weight: bold;
-        }
-
-        #setMealName {
-            text-align: left;
-        }
-
-        .tabletrBg {
-            text-align: center;
-        }
-
-        .one{
-            color: #0000ff;
-        }
     </style>
 </head>
 <body class="hold-transition">
@@ -67,25 +31,22 @@
             <el-breadcrumb-item>运营数据</el-breadcrumb-item>
         </el-breadcrumb>
     </div>
-
     <div class="app-container">
         <div class="box" style="height: 900px">
             <div class="excelTitle">
-                <el-button @click="exportExcel" type="primary" plain>导出Excel</el-button>
+                <el-button @click="exportExcel">导出Excel</el-button>
+                运营数据统计
             </div>
-            <h1 class="one" align="center">运营数据统计</h1>
-
-            <div class="el-icon-date">日期：{{reportData.reportDate}}</div>
-            <table id="table1" class="exceTable" cellspacing="0" cellpadding="0">
-                <hr color="green" size="1">
+            <div class="excelTime">日期：{{reportData.reportDate}}</div>
+            <table class="exceTable" cellspacing="0" cellpadding="0">
                 <tr>
                     <td colspan="4" class="headBody">会员数据统计</td>
                 </tr>
                 <tr>
-                    <td width='35%' class="tabletrBg">新增会员数</td>
-                    <td width='15%'>{{reportData.todayNewMember}}</td>
-                    <td width='35%' class="tabletrBg">总会员数</td>
-                    <td width='15%'>{{reportData.totalMember}}</td>
+                    <td width='20%' class="tabletrBg">新增会员数</td>
+                    <td width='30%'>{{reportData.todayNewMember}}</td>
+                    <td width='20%' class="tabletrBg">总会员数</td>
+                    <td width='30%'>{{reportData.totalMember}}</td>
                 </tr>
                 <tr>
                     <td class="tabletrBg">本周新增会员数</td>
@@ -97,38 +58,34 @@
                     <td colspan="4" class="headBody">预约到诊数据统计</td>
                 </tr>
                 <tr>
-                    <td class="tabletrBg" bgcolor="#d8bfd8">今日预约数</td>
+                    <td class="tabletrBg">今日预约数</td>
                     <td>{{reportData.todayOrderNumber}}</td>
-                    <td class="tabletrBg" bgcolor="#d8bfd8">今日到诊数</td>
+                    <td class="tabletrBg">今日到诊数</td>
                     <td>{{reportData.todayVisitsNumber}}</td>
                 </tr>
                 <tr>
-                    <td class="tabletrBg" bgcolor="#d8bfd8">本周预约数</td>
+                    <td class="tabletrBg">本周预约数</td>
                     <td>{{reportData.thisWeekOrderNumber}}</td>
-                    <td class="tabletrBg" bgcolor="#d8bfd8">本周到诊数</td>
+                    <td class="tabletrBg">本周到诊数</td>
                     <td>{{reportData.thisWeekVisitsNumber}}</td>
                 </tr>
                 <tr>
-                    <td class="tabletrBg" bgcolor="#d8bfd8">本月预约数</td>
+                    <td class="tabletrBg">本月预约数</td>
                     <td>{{reportData.thisMonthOrderNumber}}</td>
-                    <td class="tabletrBg" bgcolor="#ff7f50">本月到诊数</td>
+                    <td class="tabletrBg">本月到诊数</td>
                     <td>{{reportData.thisMonthVisitsNumber}}</td>
                 </tr>
-            </table>
-
-            <table id="table2" class="exceTable" cellspacing="0" cellpadding="0">
-                <hr color="green" size="1">
                 <tr>
-                    <td colspan="4" class="headBody">热门套餐（前三）</td>
+                    <td colspan="4" class="headBody">热门套餐</td>
                 </tr>
                 <tr class="tabletrBg textCenter">
-                    <td width='50%' bgcolor="#98fb98">套餐名称</td>
-                    <td width='10%' bgcolor="#98fb98">预约数量</td>
-                    <td width='20%' bgcolor="#98fb98">占比（%）</td>
-                    <td width='20%' bgcolor="#98fb98">备注</td>
+                    <td>套餐名称</td>
+                    <td>预约数量</td>
+                    <td>占比</td>
+                    <td>备注</td>
                 </tr>
                 <tr v-for="s in reportData.hotSetmeal">
-                    <td id="setMealName">{{s.name}}</td>
+                    <td>{{s.name}}</td>
                     <td>{{s.setmeal_count}}</td>
                     <td>{{s.proportion}}</td>
                     <td></td>
@@ -168,7 +125,6 @@
             });
         },
         methods: {
-
             exportExcel() {
                 window.location.href = '/hello/report/exportBusinessReport.do';
             }

@@ -7,15 +7,12 @@ import com.zhang.pojo.Result;
 import com.zhang.service.MemberService;
 import com.zhang.service.ReportService;
 import com.zhang.service.SetMealService;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -118,6 +115,38 @@ public class ReportController {
             return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
         }
     }
+
+    //获取月份用户getTotalMemberReport2
+    @RequestMapping(value = {"getTotalMemberReport2"})
+    @PreAuthorize(value = "hasAnyAuthority('REPORT_VIEW')")
+    public Result getTotalMemberReport2(@RequestBody Map<String,List<String>> map) throws Exception {
+        try {
+            if(map ==null || map.size()<=0){
+                return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+            }
+
+            Map result =  memberService.getTotalMemberReport2(map);
+
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL,result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        String s = "2019-07-21";
+        String substring = s.substring(s.lastIndexOf("-"));
+        String[] split = s.split(substring);
+        for (String s1 : split) {
+            System.out.println(s1);
+        }
+    }
+
+
+
+
 
     @RequestMapping(value = {"getSetMealReport"})
     @PreAuthorize(value = "hasAnyAuthority('REPORT_VIEW')")

@@ -19,7 +19,11 @@
         SELECT * FROM t_menu
         <where>
             <if test="_parameter != null and _parameter != ''">
+<<<<<<< HEAD
                 title LIKE #{value} OR code LIKE #{value}
+=======
+                title LIKE #{value} OR code LIKE #{keyWord}
+>>>>>>> 0eb88cfabb37fb066af21c258ceb6371e80889e5
             </if>
         </where>
     </select>

@@ -7,11 +7,32 @@
         SELECT * FROM t_member WHERE phoneNumber = #{phoneNumber}
     </select>
 
-    <insert id="add" parameterType="Member" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO t_member
-        VALUES (NULL ,#{fileNumber} ,#{name} ,#{sex} ,#{idCard} ,#{phoneNumber}
-        ,#{regTime} ,#{password} ,#{email} ,#{birthday} ,#{remark} )
+<!--    <insert id="add" parameterType="Member" useGeneratedKeys="true" keyProperty="id">-->
+<!--        INSERT INTO t_member-->
+<!--        VALUES (NULL ,#{fileNumber} ,#{name} ,#{sex} ,#{idCard} ,#{phoneNumber}-->
+<!--        ,#{regTime} ,#{password} ,#{email} ,#{birthday} ,#{remark} )-->
+<!--    </insert>-->
+
+
+    <insert id="add" parameterType="com.zhang.entity.Member">
+        <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="int">
+            select  LAST_INSERT_ID()
+        </selectKey>
+
+        -- 插入会员表
+        insert into
+        t_member
+        (fileNumber,name,sex,idCard,phoneNumber,
+        regTime,password,email,birthday,remark)
+        values
+        (#{fileNumber},#{name},#{sex},#{idCard},#{phoneNumber},
+        #{regTime},#{password},#{email},#{birthday},#{remark})
     </insert>
+
+
+
+
+
 
     <select id="selectMemberCountByDate" resultType="java.lang.Integer" parameterType="map">
         SELECT COUNT(*) FROM t_member WHERE regTime BETWEEN  #{beginDate} AND #{endDate};
@@ -65,5 +86,12 @@
         where m.birthday is not null
         )a)a
         group by name;
+    </select>
+
+    <select id="findMember" resultType="com.zhang.entity.Member" parameterType="string">
+        select * from t_member
+        <if test="_parameter!=null and _parameter!=''">
+        where phoneNumber LIKE #{value} or `name` like #{value} or idCard LIKE #{value}
+        </if>
     </select>
 </mapper>

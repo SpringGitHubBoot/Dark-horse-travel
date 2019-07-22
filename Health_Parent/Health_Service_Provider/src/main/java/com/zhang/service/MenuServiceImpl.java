@@ -213,6 +213,16 @@ public class MenuServiceImpl implements MenuService {
         }
     }
 
+    @Override
+    public List<Menu> selectAllMenu() {
+        return menuDao.selectAllMenu();
+    }
+
+    @Override
+    public List<Integer> selectMenuIdsByRoleId(Integer id) {
+        return roleDao.getMenuIds(id);
+    }
+
     //删除角色和菜单中间表的指定记录
     public void deleteFromRoleAndMenuByIds(List<Integer> roleIds, int menuId) {
         Map map = new HashMap<>();

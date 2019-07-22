@@ -53,4 +53,8 @@
         </where>
     </update>
 
+    <select id="selectAllPermission" resultType="Permission">
+        SELECT * FROM t_permission;
+    </select>
+
 </mapper>

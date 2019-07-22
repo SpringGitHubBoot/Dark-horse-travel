@@ -76,4 +76,8 @@
     <select id="findMenuListByPartPath" resultType="Menu" parameterType="string">
          SELECT * FROM t_menu WHERE path LIKE #{value}
     </select>
+
+    <select id="selectAllMenu" resultType="Menu">
+        SELECT * FROM t_menu;
+    </select>
 </mapper>

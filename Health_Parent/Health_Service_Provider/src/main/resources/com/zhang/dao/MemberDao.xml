@@ -7,19 +7,10 @@
         SELECT * FROM t_member WHERE phoneNumber = #{phoneNumber}
     </select>
 
-<!--    <insert id="add" parameterType="Member" useGeneratedKeys="true" keyProperty="id">-->
-<!--        INSERT INTO t_member-->
-<!--        VALUES (NULL ,#{fileNumber} ,#{name} ,#{sex} ,#{idCard} ,#{phoneNumber}-->
-<!--        ,#{regTime} ,#{password} ,#{email} ,#{birthday} ,#{remark} )-->
-<!--    </insert>-->
-
-
     <insert id="add" parameterType="com.zhang.entity.Member">
         <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="int">
             select  LAST_INSERT_ID()
         </selectKey>
-
-        -- 插入会员表
         insert into
         t_member
         (fileNumber,name,sex,idCard,phoneNumber,
@@ -28,10 +19,6 @@
         (#{fileNumber},#{name},#{sex},#{idCard},#{phoneNumber},
         #{regTime},#{password},#{email},#{birthday},#{remark})
     </insert>
-
-
-
-
 
 
     <select id="selectMemberCountByDate" resultType="java.lang.Integer" parameterType="map">

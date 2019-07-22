@@ -134,20 +134,6 @@ public class ReportController {
         }
     }
 
-
-    public static void main(String[] args) {
-        String s = "2019-07-21";
-        String substring = s.substring(s.lastIndexOf("-"));
-        String[] split = s.split(substring);
-        for (String s1 : split) {
-            System.out.println(s1);
-        }
-    }
-
-
-
-
-
     @RequestMapping(value = {"getSetMealReport"})
     @PreAuthorize(value = "hasAnyAuthority('REPORT_VIEW')")
     public Result getSetMealReport() throws Exception {

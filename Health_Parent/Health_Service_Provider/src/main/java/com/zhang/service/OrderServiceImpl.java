@@ -118,8 +118,8 @@ public class OrderServiceImpl implements OrderService {
 
     //定时清理预约设置历史数据
     public void clearOrderSettingJob(String date) {
-         date+="-31";
+        date += "-31";
 
-         orderDao.clearOrderSettingJob(date);//2019-07-31
+        orderDao.clearOrderSettingJob(date);//2019-07-31
     }
 }

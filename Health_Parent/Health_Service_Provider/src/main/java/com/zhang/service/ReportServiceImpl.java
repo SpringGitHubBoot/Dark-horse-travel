@@ -95,4 +95,20 @@ public class ReportServiceImpl implements ReportService {
         map.put("hotSetmeal", hotSetmeal);
         return map;
     }
+
+    /**
+     * 会员性别占比
+     */
+    @Override
+    public List<Map<String, Object>> getGenderReport() {
+        return memberDao.findGenderNameAndCount();
+    }
+
+    /**
+     * 年龄阶段占比
+     */
+    @Override
+    public List<Map<String, Object>> getAgeStageReport() {
+        return memberDao.getBirthdayToAge();
+    }
 }

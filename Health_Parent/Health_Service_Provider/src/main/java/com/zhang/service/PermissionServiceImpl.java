@@ -26,7 +26,11 @@ public class PermissionServiceImpl implements PermissionService {
         PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
 
         //调用持久层方法，注意用Page来接收
-        Page<Permission> page = permissionDao.selectPageData(queryPageBean.getQueryString());
+        String keyWord = queryPageBean.getQueryString();
+        if(keyWord == null){
+            keyWord = "";
+        }
+        Page<Permission> page = permissionDao.selectPageData("%" + keyWord + "%");
 
         return new PageResult(page.getTotal(), page.getResult());
     }

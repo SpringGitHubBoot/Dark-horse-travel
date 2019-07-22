@@ -66,7 +66,10 @@ public class MenuServiceImpl implements MenuService {
         Integer pageSize = pageRequestData.getPageSize();
 
         PageHelper.startPage(currentPage, pageSize);
-        Page<Menu> menuPage = menuDao.selectMenuPageData(keyWord);
+        if (keyWord == null) {
+            keyWord = "";
+        }
+        Page<Menu> menuPage = menuDao.selectMenuPageData("%" + keyWord + "%");
         return new PageResult(menuPage.getTotal(), menuPage.getResult());
     }
 
@@ -193,7 +196,7 @@ public class MenuServiceImpl implements MenuService {
                 menuDao.deleteMenuById(id);
             }
         } else {
-            String childPath = "/" + path;
+            String childPath = "/" + path + "%";
             List<Menu> menuList = menuDao.findMenuListByPartPath(childPath);
             if (menuList.size() > 0 && menuList != null) {
                 throw new RuntimeException();

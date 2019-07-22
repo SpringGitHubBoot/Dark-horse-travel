@@ -68,8 +68,10 @@ public class UserServiceImpl implements UserService {
         String queryString = queryPageBean.getQueryString();
         Integer pageSize = queryPageBean.getPageSize();
         PageHelper.startPage(currentPage, pageSize);
-
-        Page<User> page = userDao.selectUserPage(queryString);
+        if (queryString == null) {
+            queryString = "";
+        }
+        Page<User> page = userDao.selectUserPage("%" + queryString + "%");
         return new PageResult(page.getTotal(), page.getResult());
     }
 

@@ -146,7 +146,7 @@ public class MenuServiceImpl implements MenuService {
                     }
                     //来到这里说明path的最后一位是1
                     else {
-                        //找打这个path对应的一级路径
+                        //找到这个path对应的一级路径
                         String mainPath = path.charAt(1) + "";
                         //获得这个一级菜单
                         Menu menuByPath = menuDao.findMenuByPath(mainPath);

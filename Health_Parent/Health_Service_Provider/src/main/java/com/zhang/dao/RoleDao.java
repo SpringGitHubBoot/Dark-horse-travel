@@ -12,17 +12,24 @@ import java.util.Set;
 public interface RoleDao {
     //编辑角色
     void updateRole(Role role);
+
     //  添加角色
     void addRole(Role role);
+
     Set<Role> selectRoleListByUserId(int id);
-//  查询所有角色
+
+    //  查询所有角色
     List<Role> selectAllRole();
-//  分页查询
+
+    //  分页查询
     Page<Role> selectPageData(String queryString);
-//  回显角色
+
+    //  回显角色
     Role selectRoleById(Integer id);
-//删除角色，先查关联后删
+
+    //删除角色，先查关联后删
     int selectRoleIDInCC(Integer id);
+
     void deleteRoleById(Integer id);
 
     void insertIntoRoleAndMenu(Map map);
@@ -31,4 +38,15 @@ public interface RoleDao {
 
     void deleteFromRoleAndMenuByIds(Map map);
 
+    void insertIntoRoleAndPermission(Map map);
+
+    List<Integer> getPermissionIds(Integer id);
+
+    List<Integer> getMenuIds(Integer id);
+
+    void deleteRoleIdAndMenuIdByRoleId(int roleId);
+
+    void deleteRoleIdAndPermissionIdByRoleId(int roleId);
+
+    void deleteRoleIdAndUserIdByRoleId(Integer id);
 }

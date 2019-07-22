@@ -5,17 +5,19 @@ import com.zhang.pojo.PageResult;
 import com.zhang.pojo.QueryPageBean;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RoleService {
-    void addRole(Role role);
-    //查询所有角色
+
     List<Role> selectAllRole();
-    //分页查询
+
     PageResult selectPageData(QueryPageBean queryPageBean);
-    //编辑角色
-    void updateRole(Role role);
-    //回显
-    Role selectRoleById(Integer id);
-    //删除角色
-    void deleteById(Integer id);
+
+    void add(Map map);
+
+    Role queryRoleById(Integer id);
+
+    void update(Map map);
+
+    void delete(Integer id);
 }

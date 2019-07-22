@@ -43,6 +43,12 @@
     //myChart.setOption(option);
 
     axios.get("/hello/report/getAgeStageReport.do").then((res) => {
+        if (res.data.flag){
+            if (res.data.data.AgeStageAndCount.length==0
+            && res.data.data.AgeStageNames.length==0){
+                alert("暂无数据");
+            }
+        }
         myChart1.setOption({
         title: {
             text: '会员年龄阶段比',
@@ -60,7 +66,7 @@
         },
         series: [
             {
-                name: '套餐预约占比',
+                name: '会员年龄阶段比',
                 type: 'pie',
                 radius: '55%',
                 center: ['50%', '60%'],

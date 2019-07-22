@@ -23,6 +23,7 @@ public class MenuController {
     private MenuService menuService;
 
     @RequestMapping(value = {"/getMenuByUsername"})
+    @PreAuthorize(value = "hasAnyAuthority('MENU_QUERY')")
     public Result getMenuByUsername(String username) {
         try {
             List<Menu> menus = menuService.getMenuByUsername(username);
@@ -34,13 +35,13 @@ public class MenuController {
     }
 
     @RequestMapping(value = {"/selectMenuPageData"})
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('MENU_QUERY')")
     public PageResult selectMenuPageData(@RequestBody QueryPageBean pageRequestData) {
         return menuService.selectMenuPageData(pageRequestData);
     }
 
     @RequestMapping(value = {"/addMenu"})
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('MENU_ADD')")
     public Result addMenu(@RequestBody Menu menu) {
         try {
             menuService.addMenu(menu);
@@ -52,7 +53,7 @@ public class MenuController {
     }
 
     @RequestMapping(value = {"/queryMenuById"})
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('MENU_QUERY')")
     public Result queryMenuById(Integer id) {
         try {
             Menu menu = menuService.queryMenuById(id);
@@ -64,7 +65,7 @@ public class MenuController {
     }
 
     @RequestMapping(value = {"/updateMenu"})
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('MENU_EDIT')")
     public Result updateMenu(@RequestBody Menu menu) {
         try {
             menuService.updateMenu(menu);
@@ -76,7 +77,7 @@ public class MenuController {
     }
 
     @RequestMapping(value = {"/deleteMenu"})
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('MENU_DELETE')")
     public Result deleteMenu(Integer id) {
         try {
             menuService.deleteMenu(id);
@@ -84,6 +85,30 @@ public class MenuController {
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, MessageConstant.DELETE_MENU_FAIL);
+        }
+    }
+
+    @RequestMapping(value = {"/selectAllMenu"})
+    @PreAuthorize(value = "hasAnyAuthority('MENU_QUERY')")
+    public Result selectAllMenu() {
+        try {
+            List<Menu> menuList = menuService.selectAllMenu();
+            return new Result(true, MessageConstant.QUERY_MENU_SUCCESS, menuList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.QUERY_MENU_FAIL);
+        }
+    }
+
+    @RequestMapping(value = {"/selectMenuIdsByRoleId"})
+    @PreAuthorize(value = "hasAnyAuthority('MENU_QUERY')")
+    public Result selectMenuIdsByRoleId(Integer id) {
+        try {
+            List<Integer> menuIds = menuService.selectMenuIdsByRoleId(id);
+            return new Result(true, MessageConstant.QUERY_MENU_SUCCESS, menuIds);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.QUERY_MENU_FAIL);
         }
     }
 }

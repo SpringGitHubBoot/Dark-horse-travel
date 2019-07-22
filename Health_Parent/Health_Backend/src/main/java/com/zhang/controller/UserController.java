@@ -63,13 +63,15 @@ public class UserController {
     /*
     * 用于查询每页的用户显示数据*/
     @RequestMapping(value = {"/selectUserPage"})
-    public PageResult selectCheckGroupPage(@RequestBody QueryPageBean queryPageBean) {
+    @PreAuthorize(value = "hasAnyAuthority('USER_QUERY')")
+    public PageResult selectUserPage(@RequestBody QueryPageBean queryPageBean) {
         return userService.selectUserPage(queryPageBean);
     }
 
     /*通过id查找用户*/
     @RequestMapping(value = {"/selectUser"})
-    public Result selectCheckGroupById(Integer id) {
+    @PreAuthorize(value = "hasAnyAuthority('USER_QUERY')")
+    public Result selectUserById(Integer id) {
         try {
             com.zhang.entity.User user = userService.selectUserById(id);
             return new Result(true, MessageConstant.QUERY_USER_SUCCESS, user);
@@ -81,6 +83,7 @@ public class UserController {
 
     /*通过用户的id查找用户对应角色的id*/
     @RequestMapping(value = {"/selectRolesIdByUserId"})
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_QUERY')")
     public Result selectRolesByUserId(Integer id) {
         try {
             List<Integer> list = userService.selectRolesIdByUserId(id);
@@ -94,6 +97,7 @@ public class UserController {
 
     /*新增用户，同时将上传的图片路径保存到jedis中*/
     @RequestMapping(value = {"/add"})
+    @PreAuthorize(value = "hasAnyAuthority('USER_ADD')")
     public Result addUser(@RequestBody com.zhang.entity.User user,
                           Integer[] roleIds) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -113,6 +117,7 @@ public class UserController {
 
     /*更新用户数据，同时更新中间表*/
     @RequestMapping(value = {"/update"})
+    @PreAuthorize(value = "hasAnyAuthority('USER_UPDATE')")
     public Result updateUser(@RequestBody com.zhang.entity.User user,
                              Integer[] roleIds) {
         try {
@@ -128,7 +133,8 @@ public class UserController {
 
     /*根据用户id删除用户信息，同时删除中间表*/
     @RequestMapping(value = {"/delete"})
-    public Result deleteCheckGroup(Integer id) {
+    @PreAuthorize(value = "hasAnyAuthority('USER_DELETE')")
+    public Result delete(Integer id) {
         try {
             userService.delete(id);
             return new Result(true, MessageConstant.DELETE_USER_SUCCESS);

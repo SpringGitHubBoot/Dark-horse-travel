@@ -29,4 +29,6 @@ public interface MenuDao {
     void deleteMenuById(Integer id);
 
     List<Menu> findMenuListByPartPath(String childPath);
+
+    List<Menu> selectAllMenu();
 }

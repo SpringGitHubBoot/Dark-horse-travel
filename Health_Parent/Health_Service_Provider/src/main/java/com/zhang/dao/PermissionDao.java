@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.zhang.entity.CheckItem;
 import com.zhang.entity.Permission;
 
+import java.util.List;
 import java.util.Set;
 
 public interface PermissionDao {
@@ -19,4 +20,6 @@ public interface PermissionDao {
     void deleteById(Integer id);
 
     void updatePermission(Permission permission);
+
+    List<Permission> selectAllPermission();
 }

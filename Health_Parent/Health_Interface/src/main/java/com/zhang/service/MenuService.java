@@ -20,4 +20,8 @@ public interface MenuService {
     void updateMenu(Menu menu);
 
     void deleteMenu(Integer id) throws Exception;
+
+    List<Menu> selectAllMenu();
+
+    List<Integer> selectMenuIdsByRoleId(Integer id);
 }

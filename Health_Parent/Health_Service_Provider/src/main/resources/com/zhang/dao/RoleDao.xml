@@ -91,9 +91,6 @@
          DELETE FROM t_role_menu WHERE role_id = #{roleId} AND menu_id = #{menuId}
     </delete>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     <insert id="insertIntoRoleAndPermission">
         INSERT INTO t_role_permission VALUES (#{roleId} , #{permissionId})
     </insert>
@@ -117,14 +114,4 @@
     <delete id="deleteRoleIdAndUserIdByRoleId">
         DELETE FROM t_user_role WHERE role_id = #{roleId}
     </delete>
-=======
-
->>>>>>> 0eb88cfabb37fb066af21c258ceb6371e80889e5
-=======
-
->>>>>>> ea681567b9122129491d7185c82d9f58c168865b
-=======
-
->>>>>>> ea681567b9122129491d7185c82d9f58c168865b
-
 </mapper>

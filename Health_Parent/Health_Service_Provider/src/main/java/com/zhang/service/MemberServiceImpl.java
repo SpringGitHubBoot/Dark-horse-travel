@@ -2,9 +2,13 @@ package com.zhang.service;
 //@author ZT 2019/7/14-15:57  
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zhang.constance.MessageConstant;
 import com.zhang.dao.MemberDao;
 import com.zhang.entity.Member;
+import com.zhang.pojo.PageResult;
+import com.zhang.pojo.QueryPageBean;
 import com.zhang.pojo.Result;
 import com.zhang.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,4 +89,21 @@ public class MemberServiceImpl implements MemberService {
         map.put("memberCount", memberCount);
         return map;
     }
+
+    @Override
+    public PageResult getMember(QueryPageBean queryPageBean) {
+        Integer currentPage = queryPageBean.getCurrentPage();
+        Integer pageSize = queryPageBean.getPageSize();
+        String queryString = queryPageBean.getQueryString();
+       PageHelper.startPage(currentPage, pageSize);
+        if (queryString==null){
+            queryString="";
+        }
+        Page member = memberDao.findMember("%" + queryString + "%");
+
+        return new PageResult(member.getTotal(),member.getResult());
+
+
 }
+
+                }

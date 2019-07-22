@@ -1,21 +1,5 @@
 //获取指定的URL参数值 http://localhost/pages/setmeal_detail.html?id=3&name=jack
 function getUrlParam(paraName) {
-    var url = document.location.toString();
-    //alert(url);
-    var arrObj = url.split("?");//id=3    name=jack
-    if (arrObj.length > 1) {
-        var arrPara = arrObj[1].split("&");//数组
-        var arr;
-        for (var i = 0; i < arrPara.length; i++) {
-            arr = arrPara[i].split("=");
-            if (arr != null && arr[0] == paraName) {
-                return arr[1];
-            }
-        }
-        return "";
-    }
-    else {
-        return "";
 
     //获取url地址中?之后包括?的内容并转成字符串
     var url = document.location.search.toString();
@@ -61,7 +45,7 @@ function getSpecifiedDate(date, days) {
  3--最后以0-9的9个整数结尾。
  */
 function checkTelephone(telephone) {
-    var reg=/^[1][3,4,5,7,8][0-9]{9}$/;
+    var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
     if (!reg.test(telephone)) {
         return false;
     } else {
@@ -73,11 +57,11 @@ function checkTelephone(telephone) {
  * 身份证号码校验
  * 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
  */
-function checkIdCard(idCard){
+function checkIdCard(idCard) {
     var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-    if(reg.test(idCard)){
+    if (reg.test(idCard)) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
@@ -93,7 +77,7 @@ function doLoop() {
     if (nums > 0) {
         validateCodeButton.value = nums + '秒后重新获取';
     } else {
-        window.clearInterval(clock); //清除js定时器
+        clearInterval(clock); //清除js定时器
         validateCodeButton.disabled = false;
         validateCodeButton.value = '重新获取验证码';
         nums = 30; //重置时间

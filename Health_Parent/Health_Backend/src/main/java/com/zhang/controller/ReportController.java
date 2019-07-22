@@ -11,7 +11,9 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.json.JSONArray;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,10 +54,10 @@ public class ReportController {
         }
     }
 
+
     @RequestMapping(value = {"getTotalMemberReport"})
     @PreAuthorize(value = "hasAnyAuthority('REPORT_VIEW')")
     public Result getTotalMemberReport() throws Exception {
-
         try {
             Map map = memberService.getTotalMemberReport();
             return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, map);
@@ -62,6 +66,38 @@ public class ReportController {
             return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
         }
     }
+
+    //获取月份用户getTotalMemberReport2
+    @RequestMapping(value = {"getTotalMemberReport2"})
+    @PreAuthorize(value = "hasAnyAuthority('REPORT_VIEW')")
+    public Result getTotalMemberReport2(@RequestBody Map<String,List<String>> map) throws Exception {
+        try {
+            if(map ==null || map.size()<=0){
+                return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+            }
+
+            Map result =  memberService.getTotalMemberReport2(map);
+
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL,result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        String s = "2019-07-21";
+        String substring = s.substring(s.lastIndexOf("-"));
+        String[] split = s.split(substring);
+        for (String s1 : split) {
+            System.out.println(s1);
+        }
+    }
+
+
+
+
 
     @RequestMapping(value = {"getSetMealReport"})
     @PreAuthorize(value = "hasAnyAuthority('REPORT_VIEW')")

@@ -35,6 +35,7 @@
 
 
 
+
     <select id="selectMemberCountByDate" resultType="java.lang.Integer" parameterType="map">
         SELECT COUNT(*) FROM t_member WHERE regTime BETWEEN  #{beginDate} AND #{endDate};
     </select>

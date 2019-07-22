@@ -23,4 +23,5 @@ public interface MemberDao {
     Integer getThisWeekNewMember(Date firstDayOfWeek);
 
     Integer getThisMonthNewMember(Date firstDay4ThisMonth);
+
 }

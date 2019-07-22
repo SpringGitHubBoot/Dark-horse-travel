@@ -1,6 +1,4 @@
 .idea/
 *.iml
 Health_Parent/**/target/
-*.js
-*.css
 

@@ -46,10 +46,13 @@ public class SetMealServiceImpl implements SetMealService {
         Integer currentPage = queryPageBean.getCurrentPage();
         Integer pageSize = queryPageBean.getPageSize();
         String queryString = queryPageBean.getQueryString();
-//        String keyword = "%" + queryString + "%";
+
+        if (queryString == null) {
+            queryString = "";
+        }
 
         PageHelper.startPage(currentPage, pageSize);
-        Page<SetMeal> setMealPage = setMealDao.selectSetMealPage(queryString);
+        Page<SetMeal> setMealPage = setMealDao.selectSetMealPage("%" + queryString + "%");
         return new PageResult(setMealPage.getTotal(), setMealPage.getResult());
     }
 
@@ -93,7 +96,7 @@ public class SetMealServiceImpl implements SetMealService {
         //如果存在
         if (setMealList != null) {
             //使setMealList的值为""，查询套餐详情时候就需要重新查询数据库并重新给redis赋值
-            jedisPool.getResource().set("setMealList","");
+            jedisPool.getResource().set("setMealList", "");
         }
     }
 
@@ -105,7 +108,7 @@ public class SetMealServiceImpl implements SetMealService {
         //如果存在
         if (setMealDetail != null) {
             //使idStr的值为""，查询套餐详情时候就需要重新查询数据库并重新给redis赋值
-            jedisPool.getResource().set(idStr,"");
+            jedisPool.getResource().set(idStr, "");
         }
     }
 
@@ -147,15 +150,14 @@ public class SetMealServiceImpl implements SetMealService {
 
         String queryString = queryPageBean.getQueryString();
 
-        if(queryString==null || "".equals(queryString)){
+        if (queryString == null || "".equals(queryString)) {
             queryString = "";
         }
 
 
-
         PageHelper.startPage(currentPage, pageSize);
 
-        Page<Map> page = setMealDao.getSetMeaList("%"+queryString+"%");
+        Page<Map> page = setMealDao.getSetMeaList("%" + queryString + "%");
 
         //获得当前页数据列表
         List<Map> dataList = page.getResult();
@@ -163,12 +165,11 @@ public class SetMealServiceImpl implements SetMealService {
         for (Map map : dataList) {
             Date orderTime = (Date) map.get("OrderTime");
             String time = DateUtils.parseDate2String(orderTime, "yyyy-MM-dd");
-            map.put("OrderTime",time);
+            map.put("OrderTime", time);
         }
 
 
-
-        PageResult pageResult = new PageResult(page.getTotal(),dataList);
+        PageResult pageResult = new PageResult(page.getTotal(), dataList);
 
 
         return pageResult;

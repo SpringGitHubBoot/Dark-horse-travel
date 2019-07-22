@@ -16,8 +16,8 @@
 
     <select id="selectPageData" parameterType="string" resultType="com.zhang.entity.Permission">
         select * from t_permission
-        <if test="value != null and value !=''">
-            WHERE id = #{value} or name like "%${value}%"
+        <if test="_parameter != null and _parameter !=''">
+            WHERE id LIKE #{value} or `name` like #{value}
         </if>
     </select>
 

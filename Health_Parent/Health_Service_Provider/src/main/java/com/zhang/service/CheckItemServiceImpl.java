@@ -43,7 +43,11 @@ public class CheckItemServiceImpl implements CheckItemService {
         PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
 
         //调用持久层方法，注意用Page来接收
-        Page<CheckItem> page = checkItemDao.selectPageData(queryPageBean.getQueryString());
+        String queryString = queryPageBean.getQueryString();
+        if (queryString == null) {
+            queryString = "";
+        }
+        Page<CheckItem> page = checkItemDao.selectPageData("%" + queryString + "%");
 
         return new PageResult(page.getTotal(), page.getResult());
 
@@ -93,7 +97,7 @@ public class CheckItemServiceImpl implements CheckItemService {
             //如果存在
             if (setMealDetail != null) {
                 //使idStr的值为""，查询套餐详情时候就需要重新查询数据库并重新给redis赋值
-                jedisPool.getResource().set(idStr,"");
+                jedisPool.getResource().set(idStr, "");
             }
         }
     }

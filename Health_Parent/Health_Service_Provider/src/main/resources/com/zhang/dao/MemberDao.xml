@@ -66,4 +66,15 @@
         )a)a
         group by name;
     </select>
+
+    <select id="findMember" resultType="com.zhang.entity.Member" parameterType="string">
+        select * from t_member
+        <if test="_parameter!=null and _parameter!=''">
+        where phoneNumber LIKE #{value} or `name` like #{value} or idCard LIKE #{value}
+        </if>
+
+
+    </select>
+
+
 </mapper>

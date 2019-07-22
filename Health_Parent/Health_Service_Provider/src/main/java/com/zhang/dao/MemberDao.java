@@ -1,6 +1,7 @@
 package com.zhang.dao;
 //@author ZT 2019/7/13-16:25  
 
+import com.github.pagehelper.Page;
 import com.zhang.entity.Member;
 
 import java.util.Date;
@@ -34,4 +35,6 @@ public interface MemberDao {
      *年龄阶段占比
      */
     List<Map<String,Object>> getBirthdayToAge();
+
+    Page findMember(String queryString);
 }

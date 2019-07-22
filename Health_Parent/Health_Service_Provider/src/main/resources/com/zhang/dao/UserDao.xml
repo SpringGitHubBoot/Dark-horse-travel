@@ -37,8 +37,8 @@
 
     <select id="selectUserPage" parameterType="string" resultType="com.zhang.entity.User">
         select * from t_user
-        <if test="value != null and value != ''">
-            where id = #{value} or username like "%${value}%"
+        <if test="_parameter != null and _parameter != ''">
+            where id LIKE #{value} or username like #{value}
         </if>
     </select>
 

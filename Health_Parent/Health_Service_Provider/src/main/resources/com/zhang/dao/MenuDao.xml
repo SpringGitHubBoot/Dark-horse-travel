@@ -22,11 +22,6 @@
 
                 title LIKE #{value} OR code LIKE #{value}
 
-                title LIKE #{value} OR code LIKE #{keyWord}
-
-                title LIKE #{value} OR code LIKE #{keyWord}
-
-                title LIKE #{value} OR code LIKE #{keyWord}
             </if>
         </where>
     </select>

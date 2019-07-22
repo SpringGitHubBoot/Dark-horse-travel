@@ -5,6 +5,7 @@ import com.zhang.pojo.PageResult;
 import com.zhang.pojo.QueryPageBean;
 import com.zhang.pojo.Result;
 
+import java.util.List;
 import java.util.Map;
 
 public interface MemberService {
@@ -14,6 +15,9 @@ public interface MemberService {
     Map getMemberReport() throws Exception;
 
     Map getTotalMemberReport() throws Exception;
+
+    //获取月份用户
+    Map getTotalMemberReport2(Map<String, List<String>> map) throws Exception;
 
     PageResult getMember(QueryPageBean queryPageBean);
 }

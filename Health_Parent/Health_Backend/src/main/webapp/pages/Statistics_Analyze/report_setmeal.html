@@ -65,13 +65,38 @@
                     radius: '55%',
                     center: ['50%', '60%'],
                     data: res.data.data.setmealCount,
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+
+                    //设置饼状图每个颜色块的颜色
+                    color : [ 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple' ],
+
+                    label : {
+                        normal : {
+                            //饼形图显示格式
+                            formatter : '{b|{b}}  {per|{d}%}  ',
+                            rich : {
+                                b : {
+                                    color : 'white',
+                                    fontSize : 14,
+                                    lineHeight : 33
+                                },
+                                //设置百分比数字颜色
+                                per : {
+                                    color : '#00B4FB',
+                                    fontSize : 14,
+                                    padding : [ 2, 4 ],
+                                    borderRadius : 2
+                                }
+                            },
+
+                            color : 'rgb(31,187,198)',
+                            borderColor : 'rgb(31,187,198)',
+                            borderWidth : 2
+
                         }
                     }
+
+
+
                 }
             ]
         });

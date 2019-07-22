@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>传智健康</title>
+    <meta name="description" content="传智健康">
+    <meta name="keywords" content="传智健康">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../plugins/echarts/echarts.js"></script>
+    <script src="../../js/vue.js"></script>
+    <link rel="stylesheet" href="../../plugins/elementui/index.css">
+    <script src="../../plugins/elementui/index.js"></script>
+    <script src="../../js/axios-0.18.0.js"></script>
+
+
+</head>
+<body class="hold-transition">
+
+<div style="text-align:center;clear:both;">
+
+</div>
+
+<div id="app">
+    <div class="content-header">
+        <h1>统计分析
+            <small>分段统计会员数量</small>
+        </h1>
+
+<!--日历控件-->
+        <template>
+            <div class="block">
+                <span class="demonstration">请输入您要搜索的范围</span>
+                <el-date-picker
+                        v-model="value7"
+                        type="daterange"
+                        align="right"
+                        unlink-panels
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd"
+                        :picker-options="pickerOptions2">
+                </el-date-picker>
+
+<!--头部-->
+                <el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>
+                <el-button type="primary" disabled>Twitter</el-button>
+                <el-button type="success" disabled>LINE</el-button>
+                <el-button type="info" disabled>Facebook</el-button>
+                <el-button type="warning" disabled>Note</el-button>
+                <el-button type="danger" disabled>Youtube</el-button>
+            </div>
+        </template>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>统计分析</el-breadcrumb-item>
+            <el-breadcrumb-item>分段统计会员数量</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+
+
+<!--echars容器-->
+    <div class="app-container">
+        <div class="box">
+            <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+            <div id="chart1" style="height:600px;"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<style>
+    .s{
+        color: #16111f;
+    }
+</style>
+
+<script>
+
+    var app=new Vue({
+        el:"#app",
+        data:{
+            pickerOptions2: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }]
+            },
+            value7: []
+        },
+        methods:{
+            search(){
+                var param = {
+                    list:this.value7
+                };
+
+                axios.post("/hello/report/getTotalMemberReport2.do",param).then((res) => {
+                    myChart1.setOption(
+                        {
+                            title: {
+                                text: '按月份查询会员'
+                            },
+                            tooltip: {},
+                            legend: {
+                                data: ['按月份查询会员']
+                            },
+                            xAxis: {
+                                data: res.data.data.months
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [{
+                                name: '总会员数量',
+                                type: 'line',
+                                data: res.data.data.memberCount
+                            }]
+                        });
+                })
+
+            },
+        }
+
+    });
+
+    //容器
+    var myChart1 = echarts.init(document.getElementById('chart1'));
+
+
+
+    axios.post("/hello/report/getTotalMemberReport.do").then((res) => {
+        myChart1.setOption(
+            {
+                title: {
+                    text: '按月份查询会员'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['按月份查询会员']
+                },
+                xAxis: {
+                    data: res.data.data.months
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    name: '总会员数量',
+                    type: 'line',
+                    data: res.data.data.memberCount,
+                    itemStyle : {
+                        normal : {
+                            color : 'rgb(31,187,198)',
+                            borderColor : 'rgb(31,187,198)',
+                            borderWidth : 5
+
+                        }
+                    },
+
+
+                    areaStyle : {
+                        normal : {
+                            color : new echarts.graphic.LinearGradient(0,0,0,1,[
+                                {
+                                    offset : 0,
+                                    color : 'rgba(0, 136, 212, 0.3)'
+                                },
+                                {
+                                    offset : 0.8,
+                                    color : 'rgba(0, 136, 212, 0)'
+                                } ], false),
+                            shadowColor : 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur : 10
+                        }
+                    }
+
+
+                }]
+            });
+    }).catch((r) => {
+        alert(r);
+    });
+</script>
+</html>

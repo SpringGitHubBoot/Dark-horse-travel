@@ -90,20 +90,56 @@ public class MemberServiceImpl implements MemberService {
         return map;
     }
 
+
+
+    //会员数量报表指定时间段展示
+
+    public Map getTotalMemberReport2(Map<String, List<String>> map) throws Exception {
+        ArrayList<String> months = new ArrayList<>();
+        ArrayList<Integer> memberCount = new ArrayList<>();
+
+
+        List<String> list = map.get("list");
+
+        //获得开始2019-07
+        String substring0 = list.get(0).substring(list.get(0).lastIndexOf("-"));
+        String[] startMonth = list.get(0).split(substring0);
+
+        //获得结束2019-09
+        String substring1 = list.get(1).substring(list.get(1).lastIndexOf("-"));
+        String[] engMonth = list.get(1).split(substring1);
+
+        //获得区间
+
+        List<String> monthBetween = DateUtils.getMonthBetween(startMonth[0], engMonth[0], "yyyy-MM");
+
+        //添加到months
+        for (String month : monthBetween) {
+            Integer totalMemberCount = memberDao.selectTotalMemberCountByDate(month);
+            memberCount.add(totalMemberCount);
+            months.add(month);
+        }
+
+
+        Map<String,Object> hashMap = new HashMap();
+        hashMap.put("months", months);
+        hashMap.put("memberCount", memberCount);
+
+        return hashMap;
+    }
+
     @Override
     public PageResult getMember(QueryPageBean queryPageBean) {
         Integer currentPage = queryPageBean.getCurrentPage();
         Integer pageSize = queryPageBean.getPageSize();
         String queryString = queryPageBean.getQueryString();
-       PageHelper.startPage(currentPage, pageSize);
-        if (queryString==null){
-            queryString="";
+        PageHelper.startPage(currentPage, pageSize);
+        if (queryString == null) {
+            queryString = "";
         }
         Page member = memberDao.findMember("%" + queryString + "%");
 
-        return new PageResult(member.getTotal(),member.getResult());
+        return new PageResult(member.getTotal(), member.getResult());
 
-
+    }
 }
-
-                }

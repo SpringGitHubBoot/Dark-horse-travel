@@ -58,7 +58,7 @@ public class SetMealController {
                 jedisPool.getResource().set(idStr, redisSetMealDetail);
                 return new Result(true, MessageConstant.QUERY_SETMEALLIST_SUCCESS, setMealDetail);
             }
-            //将json字符串转换成JavaBean对象
+            //将json字符串转换成list集合
             SetMeal setMeal = JSON.parseObject(redisSetMealDetail, SetMeal.class);
             return new Result(true, MessageConstant.QUERY_SETMEALLIST_SUCCESS, setMeal);
         } catch (Exception e) {

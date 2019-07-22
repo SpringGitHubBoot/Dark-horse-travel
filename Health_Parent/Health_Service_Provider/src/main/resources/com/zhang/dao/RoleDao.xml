@@ -4,11 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhang.dao.RoleDao">
 
-    <select id="selectRolesByUserId" resultMap="selectRolesByUser" parameterType="int">
-        SELECT * FROM t_role WHERE id IN
-        (SELECT role_id FROM t_user_role WHERE user_id = #{user_id})
-    </select>
-
     <resultMap id="selectRolesByUser" type="Role">
         <id column="id" property="id"></id>
         <result column="keyword" property="keyword"></result>
@@ -19,15 +14,19 @@
         </collection>
     </resultMap>
 
-    <select id="selectRoleListByUserId" resultType="Role" parameterType="int">
+    <select id="selectRoleListByUserId" resultType="com.zhang.entity.Role" parameterType="int">
         SELECT * FROM t_role WHERE id in
         (SELECT role_id FROM t_user_role WHERE user_id = #{id} )
     </select>
+
+
 
     <!--查询全部角色-->
     <select id="selectAllRole" resultType="Role">
         SELECT * FROM t_role
     </select>
+
+
 
     <!--分页查询-->
     <select id="selectPageData" parameterType="string" resultType="Role">

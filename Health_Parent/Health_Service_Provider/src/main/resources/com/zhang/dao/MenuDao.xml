@@ -18,15 +18,13 @@
     <select id="selectMenuPageData" resultType="Menu" parameterType="string">
         SELECT * FROM t_menu
         <where>
-            <if test="_parameter != null and _parameter != ''">
+            <if test="_parameter != null and _parameter.length()>0">
 
-                title LIKE #{value} OR code LIKE #{value}
+                title LIKE #{value}
 
-                title LIKE #{value} OR code LIKE #{keyWord}
+                OR code LIKE #{value}
 
-                title LIKE #{value} OR code LIKE #{keyWord}
-
-                title LIKE #{value} OR code LIKE #{keyWord}
+                OR code LIKE #{keyWord}
             </if>
         </where>
     </select>

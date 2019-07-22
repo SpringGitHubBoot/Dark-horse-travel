@@ -72,9 +72,5 @@
         <if test="_parameter!=null and _parameter!=''">
         where phoneNumber LIKE #{value} or `name` like #{value} or idCard LIKE #{value}
         </if>
-
-
     </select>
-
-
 </mapper>

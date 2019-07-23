@@ -30,7 +30,6 @@
         SELECT * FROM t_permission WHERE id = #{id} ;
     </select>
 
-
     <delete id="deleteById" parameterType="int">
         DELETE FROM t_permission WHERE id = #{id} ;
     </delete>

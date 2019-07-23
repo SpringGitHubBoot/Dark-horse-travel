@@ -80,12 +80,12 @@ html,body{
 .name_inp{
 	padding-left: 34px;
 	height: 38px;
-    line-height: 38px;
-    line-height: 36px\9;
-    border: none;
-    background-color: #fff;
-   width:100%;
-   outline:none;
+	line-height: 38px;
+	line-height: 36px\9;
+	border: none;
+	background-color: #fff;
+	width:100%;
+	outline:none;
 }
 .dl{
 	width:150px;

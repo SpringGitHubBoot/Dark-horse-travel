@@ -27,13 +27,6 @@
     </insert>
 
 
-
-
-
-
-
-
-
     <select id="findOrderById" resultType="java.util.Map" parameterType="int">
         SELECT o.orderDate , o.orderType , s.name setmeal , m.name member
             FROM t_order o

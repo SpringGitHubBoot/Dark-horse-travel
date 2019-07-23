@@ -25,7 +25,6 @@
         INSERT INTO t_ordersetting VALUES (null ,#{orderDate} ,#{number} ,#{reservations} )
     </insert>
 
-
     <select id="getOrderSettingByMonth" resultType="OrderSetting" parameterType="map">
         SELECT * FROM t_ordersetting WHERE orderDate BETWEEN #{beginDate} AND #{endDate};
     </select>

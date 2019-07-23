@@ -131,7 +131,7 @@
 
     <!--     //当前页数据列表
         List<Map> getSetMeaList(HashMap<String, Object> hashMap);-->
-    <select id="getSetMeaList" parameterType="map" resultType="map">
+    <select id="getSetMeaList" parameterType="map" resultType="java.util.Map">
         -- 当前页数据列表
         select
         m.`name` as name,
